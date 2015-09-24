@@ -12,9 +12,9 @@ public class Player {
                               MAXWEIGHT = 15,
                               MAXVOLUME = 20;
     
-    Location location;
-    List<Item> inventory, storage;
-    float hp, hunger, thirst;
+    public Location location;
+    public List<Item> inventory, storage;
+    public float hp, hunger, thirst;
     
     public Player() {
         hp = MAXHEALTH;
@@ -22,6 +22,18 @@ public class Player {
         thirst = MAXTHIRST;
         inventory = new ArrayList<Item>();
         storage = new ArrayList<Item>();
+    }
+    
+    public void invAdd(Item... items) {
+        invAdd(1, items);
+    }
+    
+    public void invAdd(int n, Item... items) {
+        for (int x=0; x < n; x++) {
+            for (Item i: items) {
+                inventory.add(i);
+            }
+        }
     }
     
     public float getVolume() {
@@ -59,6 +71,12 @@ public class Player {
             inv.put(i, inv.get(i) + 1);
         }
         return inv;
+    }
+    
+    public static void main(String[] args) {
+        Player player = new Player();
+        player.invAdd(Catalog.arrow, Catalog.arrow, Catalog.bottle);
+        System.out.println(player.getInventory());
     }
     
 }

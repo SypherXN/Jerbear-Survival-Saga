@@ -20,7 +20,8 @@ public class Catalog {
     
     // Food
     public static final Item rchicken = new Item("Raw Chicken", "Are you chicken?", 2f);
-    public static final Item cchicken = new Item("Cooked Chicken", "Kung Pao or KFC?", 2f);
+    public static final Item cchicken = new Item("Cooked Chicken", "Kung Pao or KFC?", 5f);
+    public static final Item weed = new Item("Chris Item", new String[] {"weed", "chris"}, "It looks like a fan", 4.20f);
 
     /* ************************************ ANIMALS ************************************** */
     

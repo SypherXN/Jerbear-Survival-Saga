@@ -1,10 +1,15 @@
 package adventure;
 
+import java.util.Random;
 import java.util.Scanner;
+
+import adventure.command.Command;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static final Random rand = new Random();
+    
+    public static void main(String[] arg) {
 
         Scanner sc = new Scanner(System.in);
         
@@ -21,8 +26,7 @@ public class Main {
         
         Player player = new Player();
         player.location = Location.BEACH;
-        player.inventory.add(Catalog.knife);
-        player.inventory.add(Catalog.bottle);
+        player.invAdd(Catalog.knife, Catalog.bottle);
 
         boolean foo = true;
         
@@ -30,65 +34,12 @@ public class Main {
             
             System.out.print("You... ");
             String[] input = sc.nextLine().split(" ");
-            
-            if (input[0].equals("gather")) {
-                
-                Item match = null;
-                try {
-                    for (Item i: game.items) itemcheck: {
-                        for (String nick: i.nicks) {
-                            if (input[1].toLowerCase().equals(nick.toLowerCase())) {
-                                match = i;
-                                break itemcheck;
-                            }
-                        }
-                    }
-                } catch (ArrayIndexOutOfBoundsException e) {
-                    System.out.println("Gather what?");
-                }
-                if (match != null) {
-                    
-                    System.out.println(match.name);
-                } else {
-                    System.out.println("Invalid argument, try again.");
-                }
-                
-            } else if (input[0].equals("attack")) {
-
-                if (input[1].equals("wolf")) {
-                } else {
-                    System.out.println("Attack what?");
-                }
-
-            } else if (input[0].equals("check")) {
-                
-                if (input[1].equals("inventory")) {
-                    System.out.println(player.getInventoryNames());
-                } else if (input[1].equals("location") || input[1].equals("surroundings")) {
-                    System.out.printf("You are at the %s.\n", player.location.name);
-                } else {
-                    System.out.println("Check what?");
-                }
-            
-            } else if (input[0].equals("wait") || input[0].equals("procrastinate")) {
-                
-                if (input.length < 2) {
-                    System.out.println(input[0] + " how long?");
-                } else {
-                }
-
-            } else if (input[0].equals("craft") || input[0].equals("make")) {
-                
-                
-                
-            } else if (input[0].equals("move") || input[0].equals("travel")) {
-                
-                
-                
-            } else {
-                System.out.println("Invalid command, try again");
+            try {
+                game.command(player, input);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid command, please try again.");
             }
-                        
+
         }
         
         sc.close();

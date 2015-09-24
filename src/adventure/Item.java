@@ -2,12 +2,12 @@ package adventure;
 
 public class Item {
     
-    float weight, volume, hunger, damage;
-    String[] nicks; // crafting and gathering
-    String name, desc;
+    public final float weight, volume, hunger, damage;
+    public final String[] nicks; // crafting and gathering
+    public final String name, desc;
 
     /**
-     * Standard item constructor
+     * Full item constructor
      * @param name
      * @param desc
      * @param weight
@@ -60,6 +60,16 @@ public class Item {
     }
     
     /**
+     * Typical food item, .25 weight and .25 volume
+     * @param name
+     * @param desc
+     * @param hunger
+     */
+    public Item(String name, String[] nick, String desc, float hunger) {
+        this(name, nick, desc, 0.25f, 0.25f, hunger, 0);
+    }
+    
+    /**
      * A weapon
      * @param name
      * @param desc
@@ -83,6 +93,10 @@ public class Item {
         }
         target.hp -= damage;
         return true;
+    }
+    
+    public String toString() {
+        return String.format("Item(name=\"%s\",wgt=%s,vol=%s,food=%s,dmg=%s)", name, weight, volume, hunger, damage);
     }
     
 }
