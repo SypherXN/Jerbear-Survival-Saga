@@ -18,14 +18,14 @@ public class Main {
         
         rollout(
                 "Survival game",
-                1000l, ", programmed by Maxim, designed by Matthew and Jerry\n",
-                1500l, "You are stranded by maxim on an island.\n"
+                100l, ", programmed by Maxim, designed by Matthew and Jerry\n",
+                100l, "You are stranded on an island.\n"
         );
         
         Game game = new Game();
         
         Player player = new Player();
-        player.location = Location.BEACH;
+        player.location = game.locations.get("beach");
         player.invAdd(Catalog.knife, Catalog.bottle);
 
         boolean foo = true;

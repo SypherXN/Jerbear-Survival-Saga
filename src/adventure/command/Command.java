@@ -13,5 +13,11 @@ public interface Command {
      * @return success
      */
     public boolean onCalled(Player player, Game game, String... args);
+    
+    /**
+     * A string printed when the command 'help [cmd]' is called
+     * @return help
+     */
+    public String getHelp();
 
 }

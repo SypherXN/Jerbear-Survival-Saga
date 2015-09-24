@@ -12,4 +12,9 @@ public class CmdDie implements Command {
         return true;
     }
 
+    @Override
+    public String getHelp() {
+        return "Usage: die            You kill yourself.";
+    }
+
 }

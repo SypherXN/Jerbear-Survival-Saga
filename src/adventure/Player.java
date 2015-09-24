@@ -1,8 +1,11 @@
 package adventure;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+
+import adventure.location.Location;
 
 public class Player {
     
@@ -53,13 +56,27 @@ public class Player {
     }
     
     public String getInventoryNames() {
-        String s = "";
-        for (int n=0; n < inventory.size() - 1; n++) {
-            Item i = inventory.get(n);
-            s += i.name + ", ";
+        List<String> counts = new ArrayList<String>();
+        HashMap<Item, Integer> inv = getInventory();
+        for (Item i: inv.keySet()) {
+            counts.add(String.format("%s %s", inv.get(i), i.name));
         }
-        s += "and " + inventory.get(inventory.size() - 1).name;
-        return s;
+        Collections.sort(counts);
+        if (counts.size() == 2) {
+            return String.format("You have %s and %s on hand.", counts.get(0), counts.get(1));
+        }
+        String out = "You have ";
+        int i = 0;
+        for (String s: counts) {
+            if (i == counts.size() - 1) {
+                out += "and " + s;
+            } else {
+                out += s + ", ";
+            }
+            i++;
+        }
+        out += " on hand.";
+        return out;
     }
     
     public HashMap<Item, Integer> getInventory() {
@@ -71,12 +88,6 @@ public class Player {
             inv.put(i, inv.get(i) + 1);
         }
         return inv;
-    }
-    
-    public static void main(String[] args) {
-        Player player = new Player();
-        player.invAdd(Catalog.arrow, Catalog.arrow, Catalog.bottle);
-        System.out.println(player.getInventory());
     }
     
 }

@@ -10,9 +10,15 @@ import adventure.command.CmdCheck;
 import adventure.command.CmdCraft;
 import adventure.command.CmdDie;
 import adventure.command.CmdGather;
+import adventure.command.CmdHelp;
 import adventure.command.CmdMove;
 import adventure.command.CmdWait;
 import adventure.command.Command;
+import adventure.location.LocBeach;
+import adventure.location.LocJungle;
+import adventure.location.LocLake;
+import adventure.location.LocRuins;
+import adventure.location.Location;
 
 public class Game {
     
@@ -22,6 +28,7 @@ public class Game {
     public List<Item> items;
     public List<Recipe> recipes;
     public Map<String, Command> commands;
+    public Map<String, Location> locations;
     
     public Game() {
         
@@ -51,12 +58,19 @@ public class Game {
         registerCommand("craft",        new CmdCraft());
         registerCommand("die",          new CmdDie());
         registerCommand("gather",       new CmdGather());
+        registerCommand("help",         new CmdHelp());
         registerCommand("make",         new CmdCraft());
         registerCommand("move",         new CmdMove());
         registerCommand("suicide",      new CmdDie());
         registerCommand("travel",       new CmdDie());
         registerCommand("procrastinate",new CmdDie());        
         registerCommand("wait",         new CmdWait());
+        
+        locations = new HashMap<String, Location>();
+        registerLocation("beach",       new LocBeach());
+        registerLocation("jungle",      new LocJungle());
+        registerLocation("lake",        new LocLake());
+        registerLocation("ruins",       new LocRuins());
         
     }
     
@@ -70,6 +84,10 @@ public class Game {
     
     public void registerCommand(String command, Command callback) {
         this.commands.put(command, callback);
+    }
+    
+    public void registerLocation(String name, Location location) {
+        this.locations.put(name, location);
     }
     
     public boolean craft(Player player, Item item) {
