@@ -1,28 +1,15 @@
 package adventure.command;
 
 import adventure.Game;
-import adventure.Item;
 import adventure.Main;
 import adventure.Player;
+import adventure.item.Item;
 
 public class CmdGather implements Command {
     
     @Override
     public boolean onCalled(Player player, Game game, String... args) {
-        Item match = null;
-        try {
-            for (Item i: game.items) itemcheck: {
-                for (String nick: i.nicks) {
-                    if (args[1].toLowerCase().equals(nick.toLowerCase())) {
-                        match = i;
-                        break itemcheck;
-                    }
-                }
-            }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("Gather what?");
-            return false;
-        }
+        Item match = game.getItem(args[1]);
         if (match == null) {
             System.out.println("Invalid item.");
             return false;

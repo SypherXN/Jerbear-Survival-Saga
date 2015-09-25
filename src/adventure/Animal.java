@@ -2,8 +2,8 @@ package adventure;
 
 public class Animal {
     
-    String name;
-    float hp, damage;
+    public String name;
+    public float hp, damage;
     
     public Animal(String name, float hp, float damage) {
         this.name = name;

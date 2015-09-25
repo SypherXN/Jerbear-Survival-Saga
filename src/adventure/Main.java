@@ -1,9 +1,9 @@
 package adventure;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
-
-import adventure.command.Command;
 
 public class Main {
 
@@ -14,7 +14,7 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         
         System.out.print("What is your name? ");
-        String name = sc.nextLine();
+        //String name = sc.nextLine();
         
         rollout(
                 "Survival game",
@@ -25,8 +25,8 @@ public class Main {
         Game game = new Game();
         
         Player player = new Player();
-        player.location = game.locations.get("beach");
-        player.invAdd(Catalog.knife, Catalog.bottle);
+        player.location = game.getLocation("beach");
+        player.invAdd(Game.iKnife, Game.bottle);
 
         boolean foo = true;
         
@@ -82,5 +82,17 @@ public class Main {
             e.printStackTrace();
         }
     }
+    
+    public static Object[] subarray(Object[] array, int start, int end, int step) {
+    	List<Object> list = new ArrayList<Object>();
+    	for (int i=start; i < end; i += step) {
+    		list.add(array[i]);
+    	}
+    	return list.toArray();
+    }
+
+	public static Object[] subarray(Object[] args, int start, int end) {
+		return subarray(args, start, end, 1);
+	}
 
 }

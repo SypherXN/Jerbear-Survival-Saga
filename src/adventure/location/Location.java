@@ -3,7 +3,7 @@ package adventure.location;
 import java.util.Map;
 
 import adventure.Animal;
-import adventure.Item;
+import adventure.item.Item;
 
 public abstract class Location {
     

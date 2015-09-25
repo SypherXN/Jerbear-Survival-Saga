@@ -9,14 +9,14 @@ public class CmdHelp implements Command {
     public boolean onCalled(Player player, Game game, String... args) {
         if (args.length == 1) {
             String out = "Commands:\n";
-            for (String alias: game.commands.keySet()) {
+            for (String alias: game.getCommands()) {
                 out += alias + "\n";
             }
             System.out.println(out);
             return true;
         }
         if (args.length == 2) {
-            Command cmd = game.commands.get(args[1]);
+            Command cmd = game.getCommand(args[1]);
             if (cmd == null) {
                 System.out.println("Invalid command, try again");
                 return false;

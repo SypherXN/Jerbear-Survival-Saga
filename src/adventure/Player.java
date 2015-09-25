@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import adventure.item.Item;
 import adventure.location.Location;
 
 public class Player {

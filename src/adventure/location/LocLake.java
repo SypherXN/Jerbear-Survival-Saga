@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import adventure.Animal;
-import adventure.Item;
+import adventure.item.Item;
 
 public class LocLake extends Location {
 

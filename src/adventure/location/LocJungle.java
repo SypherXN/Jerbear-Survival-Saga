@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import adventure.Animal;
-import adventure.Catalog;
-import adventure.Item;
+import adventure.Game;
+import adventure.item.Item;
 
 public class LocJungle extends Location {
 
@@ -17,8 +17,8 @@ public class LocJungle extends Location {
     @Override
     public Map<Item, Integer[]> getResources() {
         Map<Item, Integer[]> map = new HashMap<Item, Integer[]>();
-        map.put(Catalog.wood, new Integer[] {5, 12});
-        map.put(Catalog.wood, new Integer[] {5, 12});
+        map.put(Game.iWood, new Integer[] {5, 12});
+        map.put(Game.iWeed, new Integer[] {5, 12});
         return map;
     }
 
