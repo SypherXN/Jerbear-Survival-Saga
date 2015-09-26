@@ -7,18 +7,16 @@ import adventure.item.Item;
 public class CmdInfo implements Command {
 
 	@Override
-	public boolean onCalled(Player player, Game game, String... args) {
+	public float onCalled(Player player, Game game, String... args) {
 		if (args.length == 1) {
 			System.out.println("Find info on what?");
-			return false;
 		}
-        Item match = game.getItem(args[1]);
-        if (match == null) {
+        Item item = game.getItem(args[1]);
+        if (item == null) {
             System.out.println("Invalid item.");
-            return false;
         }
-        System.out.println(match.desc);
-        return true;
+        System.out.println(item.desc);
+        return 0f;
 	}
 
 	@Override

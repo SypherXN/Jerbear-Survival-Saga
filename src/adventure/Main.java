@@ -26,7 +26,7 @@ public class Main {
         
         Player player = new Player();
         player.location = game.getLocation("beach");
-        player.invAdd(Game.iKnife, Game.bottle);
+        player.invAdd(Game.iKnife, Game.iBottle);
 
         boolean foo = true;
         
@@ -35,7 +35,7 @@ public class Main {
             System.out.print("You... ");
             String[] input = sc.nextLine().split(" ");
             try {
-                game.command(player, input);
+                player.command(game, input);
             } catch (IllegalArgumentException e) {
                 System.out.println("Invalid command, please try again.");
             }

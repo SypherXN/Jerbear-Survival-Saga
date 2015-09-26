@@ -18,7 +18,7 @@ public class LocJungle extends Location {
     public Map<Item, Integer[]> getResources() {
         Map<Item, Integer[]> map = new HashMap<Item, Integer[]>();
         map.put(Game.iWood, new Integer[] {5, 12});
-        map.put(Game.iWeed, new Integer[] {5, 12});
+        map.put(Game.iWeed, new Integer[] {0, 1});
         return map;
     }
 

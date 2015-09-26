@@ -1,23 +1,26 @@
 package adventure.command;
 
 import adventure.Game;
-import adventure.Main;
 import adventure.Player;
 import adventure.item.Item;
 
 public class CmdCraft implements Command {
 
     @Override
-    public boolean onCalled(Player player, Game game, String... args) {
+    public float onCalled(Player player, Game game, String... args) {
     	if (args.length == 1) {
     		System.out.println("Craft what?");
-    		return false;
+    		return 0f;
     	}
-    	Item item = game.getItem(String.join(" ", (String[]) Main.subarray(args, 1, args.length)).toLowerCase());
+    	Item item = game.getItem(args[1]);
     	if (item == null) {
     		System.out.println("Invalid item, try again.");
     	}
-        return false;
+    	if (!player.craft(game, item)) {
+    	    //System.out.println("You are missing );
+    	    return 0f;
+    	}
+        return 0f;
     }
 
     @Override

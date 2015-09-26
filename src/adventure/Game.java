@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import adventure.command.CmdAttack;
+import adventure.command.CmdBPlus;
 import adventure.command.CmdCheck;
 import adventure.command.CmdCraft;
 import adventure.command.CmdDie;
@@ -32,8 +33,8 @@ public class Game {
             iWood =      	new Item("Wood", "Made from trees", 0.5f, 1f),
             iRock =      	new Item("Rock", "It rocks", 1f, 0.5f),
             iFlint =     	new Item("Flint", "It's sharp", 0.5f, 1f),
-            iVine =     		new Item("Vine", "6-second videos", 0.5f, 1f),
-            bottle =    	new Item("Bottle", "Swallow", 0.25f, .25f),
+            iVine =     	new Item("Vine", "6-second videos", 0.5f, 1f),
+            iBottle =    	new Item("Bottle", "Swallow", 0.25f, .25f),
     
     // Weapons
             iArrow =     	new Item("Arrow", "Pew-pew wait nvm its a bow", 0.5f, 1f),
@@ -45,9 +46,9 @@ public class Game {
     // Food
             iRchicken = 	new Item("Raw Chicken", "Are you chicken?", 2f),
             iCchicken = 	new Item("Cooked Chicken", "Kung Pao or KFC?", 5f),
-            iWeed = 		new Item("Chris Item", "It looks like a fan", 4.20f)
+            iWeed = 		new Item("Chris Item", "It looks like a fan", .420f)
     ;
-
+    
     /************************************* ANIMALS ***************************************/
     public static final Animal 
     
@@ -74,6 +75,7 @@ public class Game {
     /************************************  COMMANDS ***************************************/
     public static final Command
     		attack = 		new CmdAttack(),
+    		bplus =         new CmdBPlus(),
     		check =			new CmdCheck(),
     		craft = 		new CmdCraft(),
     		die = 			new CmdDie(),
@@ -88,7 +90,7 @@ public class Game {
     public float time;
     
     private Map<String, Item> items;
-    private List<Recipe> recipes;
+    private Map<Item, Recipe> recipes;
     private Map<String, Command> commands;
     private Map<String, Location> locations;
     
@@ -99,7 +101,7 @@ public class Game {
         
         items = new HashMap<String, Item>();
         registerItem(iArrow,			"arrow");
-        registerItem(bottle,			"bottle", "canteen");
+        registerItem(iBottle,			"bottle", "canteen");
         registerItem(iBow,				"bow");
         registerItem(iCchicken,			"cookedchicken", "kungpao", "kfc");
         registerItem(iFlint,			"flint");
@@ -112,17 +114,18 @@ public class Game {
         registerItem(iWeed,				"weed", "chris", "420");
         registerItem(iWood,				"wood");
         
-        recipes = new ArrayList<Recipe>();
-        registerRecipe(new Recipe(new Item[]{iKnife}, new Item[]{iWood, iWood, iWood, iVine, iVine}, 1, iBow));
-        registerRecipe(new Recipe(new Item[]{iFlint, iFlint, iWood, iVine}, 4, iArrow));
+        recipes = new HashMap<Item, Recipe>();
+        registerRecipe(iBow, 1, new Item[]{iKnife}, iWood, iWood, iWood, iVine, iVine);
+        registerRecipe(iArrow, 4, new Item[]{iFlint, iFlint, iWood, iVine});
         
         commands = new HashMap<String, Command>();
-        registerCommand(check, 			"check", "inspect");
-        registerCommand(die, 			"die", "suicide");
+        registerCommand(bplus,          "a", "a- b+ b b- c+ c c- d+ d d- f".split(" "));
+        registerCommand(check,          "check", "inspect");
+        registerCommand(die, 			"die", "suicide", "sepukku", "disgrace");
         registerCommand(gather, 		"gather", "fetch");
-        registerCommand(help, 			"help");
-        registerCommand(info, 			"info");	
-        registerCommand(move, 			"move");
+        registerCommand(help, 			"help", "halp");
+        registerCommand(info, 			"info");
+        registerCommand(move, 			"move", "travel");
         
         locations = new HashMap<String, Location>();
         registerLocation(beach, 		"beach");
@@ -132,35 +135,29 @@ public class Game {
         
     }
     
-    private void registerRecipe(Recipe recipe) {
-        this.recipes.add(recipe);
+    private void registerRecipe(Item result, int quantity, Item[] tools, Item... ingredients) {
+        this.recipes.put(result, new Recipe(quantity, tools, ingredients));
     }
     
     private void registerItem(Item item, String name1, String... names) {
-		this.items.put(name1, item);
+		this.items.put(name1.toLowerCase(), item);
     	for (String n: names) {
-    		this.items.put(n, item);
+    		this.items.put(n.toLowerCase(), item);
     	}
     }
     
     private void registerCommand(Command callback, String name1, String... names) {
-		this.commands.put(name1, callback);
-    	for (String n: names) {
-    		this.commands.put(n, callback);
-    	}
+        this.commands.put(name1.toLowerCase(), callback);
+        for (String n: names) {
+            this.commands.put(n.toLowerCase(), callback);
+        }
     }
     
     private void registerLocation(Location location, String name1, String... names) {
 		this.locations.put(name1, location);
     	for (String n: names) {
-    		this.locations.put(n, location);
+    		this.locations.put(n.toLowerCase(), location);
     	}
-    }
-    
-    public boolean craft(Player player, Item item) {
-    	for (Recipe r: recipes) {
-    	}
-        return false;
     }
     
     public List<String> getCommands() {
@@ -171,24 +168,20 @@ public class Game {
     	return cmds;
     }
     
-    public void command(Player player, String... args) throws IllegalArgumentException {
-        Command cmd = commands.get(args[0]);
-        if (cmd == null) {
-            throw new IllegalArgumentException("Invalid command");
-        }
-        cmd.onCalled(player, this, args);
+    public Recipe getRecipe(Item item) {
+        return recipes.get(item);
     }
     
     public Item getItem(String name) {
-        return items.get(name);
+        return items.get(name.toLowerCase());
     }
 
     public Location getLocation(String name) {
-        return locations.get(name);
+        return locations.get(name.toLowerCase());
     }
 
 	public Command getCommand(String alias) {
-		return commands.get(alias);
+		return commands.get(alias.toLowerCase());
 	}
 
 }

@@ -6,9 +6,9 @@ import adventure.Player;
 public class CmdWait implements Command {
 
     @Override
-    public boolean onCalled(Player player, Game game, String... args) {
+    public float onCalled(Player player, Game game, String... args) {
         // TODO Auto-generated method stub
-        return false;
+        return 0f;
     }
 
     @Override

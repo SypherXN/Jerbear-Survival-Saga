@@ -7,10 +7,10 @@ import adventure.location.Location;
 public class CmdMove implements Command {
 
     @Override
-    public boolean onCalled(Player player, Game game, String... args) {
+    public float onCalled(Player player, Game game, String... args) {
     	if (args.length == 1) {
     		System.out.println("Move where?");
-    		return false;
+    		return 0f;
     	}
     	Location match = game.getLocation(args[1]);
     	if (match.isHidden()) {
@@ -18,7 +18,7 @@ public class CmdMove implements Command {
     	}
     	System.out.printf("You move to the %s.\n", match.getName());
     	player.location = match;
-        return true;
+        return 2f;
     }
 
     @Override

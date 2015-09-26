@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import adventure.command.Command;
 import adventure.item.Item;
 import adventure.location.Location;
 
@@ -17,7 +18,7 @@ public class Player {
                               MAXVOLUME = 20;
     
     public Location location;
-    public List<Item> inventory, storage;
+    private List<Item> inventory, storage;
     public float hp, hunger, thirst;
     
     public Player() {
@@ -29,15 +30,75 @@ public class Player {
     }
     
     public void invAdd(Item... items) {
-        invAdd(1, items);
+        for (Item i: items) {
+            inventory.add(i);
+        }
     }
     
-    public void invAdd(int n, Item... items) {
+    public void invAdd(Item item, int n) {
         for (int x=0; x < n; x++) {
-            for (Item i: items) {
-                inventory.add(i);
+            inventory.add(item);
+        }
+    }
+    
+    public void invRemove(Item... items) {
+        for (Item i: items) {
+            if (!invContains(i)) {
+                throw new IllegalArgumentException(String.format("The inventory is missing %s.", i));
             }
         }
+        for (Item i: items) {
+            inventory.remove(i);
+        }
+    }
+    
+    public void invRemove(Item item, int n) {
+        if (!invContains(item)) {
+            throw new IllegalArgumentException(String.format("The inventory is missing %s.", item));
+        }
+        for (int x=0; x < n; x++) {
+            inventory.remove(item);
+        }
+    }
+    
+    public boolean invContains(Item item) {
+        return inventory.contains(item);
+    }
+    
+    public void storageAdd(Item... items) {
+        for (Item i: items) {
+            storage.add(i);
+        }
+    }
+    
+    public void storageAdd(Item item, int n) {
+        for (int x=0; x < n; x++) {
+            storage.add(item);
+        }
+    }
+    
+    public void storageRemove(Item... items) {
+        for (Item i: items) {
+            if (!storageContains(i)) {
+                throw new IllegalArgumentException(String.format("The storage is missing %s.", i));
+            }
+        }
+        for (Item i: items) {
+            storage.remove(i);
+        }
+    }
+    
+    public void storageRemove(Item item, int n) {
+        if (!storageContains(item)) {
+            throw new IllegalArgumentException(String.format("The storage is missing %s.", item));
+        }
+        for (int x=0; x < n; x++) {
+            storage.remove(item);
+        }
+    }
+    
+    public boolean storageContains(Item item) {
+        return storage.contains(item);
     }
     
     public float getVolume() {
@@ -89,6 +150,42 @@ public class Player {
             inv.put(i, inv.get(i) + 1);
         }
         return inv;
+    }
+        
+    public boolean canCraft(Game game, Item item) {
+        Recipe r = game.getRecipe(item);
+        if (r == null) {
+            return false;
+        }
+        for (Item i: r.ingredients) {
+            if (!invContains(i)) {
+                return false;
+            }
+        }
+        for (Item i: r.tools) {
+            if (!invContains(i)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    public boolean craft(Game game, Item item) {
+        if (!canCraft(game, item)) {
+            return false;
+        }
+        Recipe r = game.getRecipe(item);
+        invRemove(r.ingredients);
+        invAdd(item);
+        return true;
+    }
+    
+    public void command(Game game, String... args) throws IllegalArgumentException {
+        Command cmd = game.getCommand(args[0].toLowerCase());
+        if (cmd == null) {
+            throw new IllegalArgumentException("Invalid command");
+        }
+        cmd.onCalled(this, game, args);
     }
     
 }

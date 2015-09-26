@@ -10,9 +10,9 @@ public interface Command {
      * @param player
      * @param game 
      * @param args Arguments, including the command sent.
-     * @return success
+     * @return time passed after command is finished
      */
-    public boolean onCalled(Player player, Game game, String... args);
+    public float onCalled(Player player, Game game, String... args);
     
     /**
      * A string printed when the command 'help [cmd]' is called

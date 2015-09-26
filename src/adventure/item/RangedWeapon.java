@@ -19,7 +19,9 @@ public class RangedWeapon extends Item {
     
     @Override
     public boolean attack(Player player, Animal animal) {
-        if (!player.inventory.remove(ammo)) {
+        try {
+            player.invRemove(ammo);
+        } catch (IllegalArgumentException e) {
             return false;
         }
         if (random.nextFloat() < CRITCHANCE) {
