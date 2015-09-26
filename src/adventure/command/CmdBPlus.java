@@ -6,8 +6,13 @@ import adventure.Player;
 
 public class CmdBPlus implements Command {
 
-    class InvalidGradeException extends RuntimeException {
-        InvalidGradeException(String grade) {
+    private class InvalidGradeException extends RuntimeException {
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		InvalidGradeException(String grade) {
             super(String.format("Unacceptable grade: %s", grade));
         }
     }
@@ -27,6 +32,11 @@ public class CmdBPlus implements Command {
     @Override
     public String getHelp() {
         return Game.die.getHelp();
+    }
+    
+    @Override
+    public boolean isHidden() {
+    	return true;
     }
 
 }

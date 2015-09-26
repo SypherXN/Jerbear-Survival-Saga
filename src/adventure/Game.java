@@ -13,6 +13,7 @@ import adventure.command.CmdDie;
 import adventure.command.CmdGather;
 import adventure.command.CmdHelp;
 import adventure.command.CmdInfo;
+import adventure.command.CmdMine;
 import adventure.command.CmdMove;
 import adventure.command.CmdWait;
 import adventure.command.Command;
@@ -82,7 +83,8 @@ public class Game {
     		gather = 		new CmdGather(),
     		help = 			new CmdHelp(),
     		info = 			new CmdInfo(),
-    		move = 			new CmdMove(),
+			move = 			new CmdMove(),
+			mine = 			new CmdMine(),
     		wait = 			new CmdWait()
     ;
     
@@ -126,6 +128,7 @@ public class Game {
         registerCommand(help, 			"help", "halp");
         registerCommand(info, 			"info");
         registerCommand(move, 			"move", "travel");
+        registerCommand(mine, 			"minesweeper");
         
         locations = new HashMap<String, Location>();
         registerLocation(beach, 		"beach");
@@ -163,6 +166,9 @@ public class Game {
     public List<String> getCommands() {
     	List<String> cmds = new ArrayList<String>();
     	for (String c: commands.keySet()) {
+    		if (commands.get(c).isHidden()) {
+    			continue;
+    		}
     		cmds.add(c);
     	}
     	return cmds;

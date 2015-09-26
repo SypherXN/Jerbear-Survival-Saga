@@ -19,5 +19,9 @@ public interface Command {
      * @return help
      */
     public String getHelp();
+    
+    public default boolean isHidden() {
+    	return false;
+    }
 
 }
