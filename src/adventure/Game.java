@@ -38,9 +38,9 @@ public class Game {
             iBottle =    	new Item("Bottle", "Swallow", 0.25f, .25f),
     
     // Weapons
-            iArrow =     	new Item("Arrow", "Pew-pew wait nvm its a bow", 0.5f, 1f),
+            iArrow =     	new Item("Arrow", "Pew-pew wait nvm its not a laser", 0.5f, 1f),
             iBow =       	new RangedWeapon("Bow", "Retractable shooty-thingy", 1.5f, 3f, 10f, iArrow),
-            iHammer =    	new Item("Hammer", "Hop, Stammertime", 2f, 0.5f, 10f),
+            iHammer =    	new Item("Hammer", "Stop, hammertime", 2f, 0.5f, 10f),
             iKnife =     	new Item("Knife", "For cutting and burning", 0.5f, 1f, 5f),
             iSpear =     	new Item("Spear", "Poke", 4f, 5f, 20f),
     
@@ -117,11 +117,11 @@ public class Game {
         registerItem(iWood,				"wood");
         
         recipes = new HashMap<Item, Recipe>();
-        registerRecipe(iBow, 1, new Item[]{iKnife}, iWood, iWood, iWood, iVine, iVine);
-        registerRecipe(iArrow, 4, new Item[]{iFlint, iFlint, iWood, iVine});
+        registerRecipe(iBow,   	1, new Item[]{iKnife}, 	iWood, iWood, iWood, iVine, iVine);
+        registerRecipe(iArrow, 	4, 						iFlint, iFlint, iWood, iVine);
         
         commands = new HashMap<String, Command>();
-        registerCommand(bplus,          "a", "a- b+ b b- c+ c c- d+ d d- f".split(" "));
+        registerCommand(bplus,          "a- b+ b- c+ c- d+ d- f+ f-".split(" "));
         registerCommand(check,          "check", "inspect");
         registerCommand(die, 			"die", "suicide", "sepukku", "disgrace");
         registerCommand(gather, 		"gather", "fetch");
@@ -142,22 +142,23 @@ public class Game {
         this.recipes.put(result, new Recipe(quantity, tools, ingredients));
     }
     
-    private void registerItem(Item item, String name1, String... names) {
-		this.items.put(name1.toLowerCase(), item);
+    private void registerRecipe(Item result, int quantity, Item... ingredients) {
+    	registerRecipe(result, quantity, new Item[0], ingredients);
+    }
+    
+    private void registerItem(Item item, String... names) {
     	for (String n: names) {
     		this.items.put(n.toLowerCase(), item);
     	}
     }
     
-    private void registerCommand(Command callback, String name1, String... names) {
-        this.commands.put(name1.toLowerCase(), callback);
+    private void registerCommand(Command callback, String... names) {
         for (String n: names) {
             this.commands.put(n.toLowerCase(), callback);
         }
     }
     
-    private void registerLocation(Location location, String name1, String... names) {
-		this.locations.put(name1, location);
+    private void registerLocation(Location location, String... names) {
     	for (String n: names) {
     		this.locations.put(n.toLowerCase(), location);
     	}
