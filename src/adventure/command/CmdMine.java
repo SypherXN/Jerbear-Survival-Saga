@@ -18,7 +18,8 @@ public class CmdMine implements Command {
 	public float onCalled(Player player, Game game, String... args) {
 		Scanner sc = new Scanner(System.in);
 		int[][] grid = new int[WIDTH][HEIGHT];
-		boolean[][] mask = new boolean[WIDTH][HEIGHT]; // Note to self: true means hidden
+        boolean[][] mask = new boolean[WIDTH][HEIGHT]; // Note to self: true means hidden
+        boolean[][] win = new boolean[WIDTH][HEIGHT];
 		for (int x=0; x < WIDTH; x++) {
 			for (int y=0; y < HEIGHT; y++) {
 				grid[x][y] = 0;
@@ -28,6 +29,7 @@ public class CmdMine implements Command {
 			int x = Main.rand.nextInt(WIDTH), y = Main.rand.nextInt(HEIGHT);
 			if (grid[x][y] == -1) {
 				i -= 1;
+				win[x][y] = true;
 			} else {
 				grid[x][y] = -1;
 				for (int sx=x-1; sx <= x+1; sx++) {
@@ -64,11 +66,11 @@ public class CmdMine implements Command {
 			}
 			if (val == -1) {
 				System.out.println(renderMinesweeperGrid(grid, new boolean[WIDTH][HEIGHT]));
-				System.out.println("You lose");
+				System.out.println("You lose!");
 				break;
 			} else if (val == 0) {
 				int[][] floatingGrid = copyGrid(grid);
-				floodfill(x, y, 0, 1337, floatingGrid);
+				minesweepfloodfill(x, y, 0, 1337, floatingGrid);
 				for (int fx=0; fx < WIDTH; fx++) {
 					for (int fy=0; fy < HEIGHT; fy++) {
 						if (floatingGrid[fx][fy] == 1337) {
@@ -79,9 +81,12 @@ public class CmdMine implements Command {
 			} else {
 				mask[x][y] = false;
 			}
+			if (mask.equals(win)) {
+			    System.out.println("You win!");
+			}
 		}
 		sc.close();
-		System.out.println("You lost 2 hours because you played minesweeper. Now get back to work.");
+		System.out.println("You also lost 2 hours because you played minesweeper. Now get back to work.");
 		return 2f;
 	}
 
@@ -95,15 +100,15 @@ public class CmdMine implements Command {
 		return true;
 	}
 	
-	public static void floodfill(int x, int y, int old, int replace, int[][] grid) {
+	public static void minesweepfloodfill(int x, int y, int old, int replace, int[][] grid) {
 		try {
 			boolean isOld = grid[x][y] == old;
 			grid[x][y] = replace;
 			if (isOld) {
-				floodfill(x-1, y, 	old, replace, grid);
-				floodfill(x,   y-1, old, replace, grid);
-				floodfill(x+1, y, 	old, replace, grid);
-				floodfill(x,   y+1, old, replace, grid);
+				minesweepfloodfill(x-1, y,   old, replace, grid);
+				minesweepfloodfill(x,   y-1, old, replace, grid);
+				minesweepfloodfill(x+1, y,   old, replace, grid);
+				minesweepfloodfill(x,   y+1, old, replace, grid);
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
 			return;
