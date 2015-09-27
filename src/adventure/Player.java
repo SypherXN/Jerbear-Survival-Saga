@@ -1,7 +1,6 @@
 package adventure;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -11,22 +10,24 @@ import adventure.location.Location;
 
 public class Player {
     
-    public static final float MAXHUNGER = 25, // start with full, degrades 1 per hour, hurts for 5-hunger damage each hour below 5
+    public static final float MAXHUNGER = 25, // start with full, degrades 2 per hour, hurts for 5-hunger damage each hour below 5
                               MAXTHIRST = 20, // start with full 3L bottle, full thirst, degrades 2 per hour, hurts for 25 damage each hour at 0
                               MAXHEALTH = 200,
                               MAXWEIGHT = 15,
-                              MAXVOLUME = 20;
+                              MAXVOLUME = 20,
+                              MAXBOTTLECAP = 3;
     
     public Location location;
     private List<Item> inventory, storage;
-    public float hp, hunger, thirst;
+    public float water, hp, hunger, thirst;
     
     public Player() {
+        inventory = new ArrayList<Item>();
+        storage = new ArrayList<Item>();
+        water = getMaxWater();
         hp = MAXHEALTH;
         hunger = MAXHUNGER;
         thirst = MAXTHIRST;
-        inventory = new ArrayList<Item>();
-        storage = new ArrayList<Item>();
     }
     
     public void invAdd(Item... items) {
@@ -117,28 +118,14 @@ public class Player {
         return sum;
     }
     
-    public String getInventoryNames() {
-        List<String> counts = new ArrayList<String>();
-        HashMap<Item, Integer> inv = getInventory();
-        for (Item i: inv.keySet()) {
-            counts.add(String.format("%s %s", inv.get(i), i.name));
-        }
-        Collections.sort(counts);
-        if (counts.size() == 2) {
-            return String.format("You have %s and %s on hand.", counts.get(0), counts.get(1));
-        }
-        String out = "You have ";
-        int i = 0;
-        for (String s: counts) {
-            if (i == counts.size() - 1) {
-                out += "and " + s;
-            } else {
-                out += s + ", ";
+    public float getMaxWater() {
+        float liters = 0;
+        for (Item i: inventory) {
+            if (i.equals(Game.iBottle)) {
+                liters += MAXBOTTLECAP;
             }
-            i++;
         }
-        out += " on hand.";
-        return out;
+        return liters;
     }
     
     public HashMap<Item, Integer> getInventory() {
@@ -185,7 +172,14 @@ public class Player {
         if (cmd == null) {
             throw new IllegalArgumentException("Invalid command");
         }
-        cmd.onCalled(this, game, args);
+        float time = cmd.onCalled(this, game, args);
+        game.time += time;
+        while (game.time >= 24) {
+            game.day += 1;
+            game.time -= 24;
+        }
+        hunger -= 2 / time;
+        thirst -= 2 / time;
     }
     
 }

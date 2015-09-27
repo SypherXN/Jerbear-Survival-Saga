@@ -27,4 +27,9 @@ public class LocBeach extends Location {
         return map;
     }
 
+    @Override
+    public boolean hasWater() {
+        return false;
+    }
+
 }

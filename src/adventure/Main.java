@@ -27,10 +27,8 @@ public class Main {
         Player player = new Player();
         player.location = game.getLocation("beach");
         player.invAdd(Game.iKnife, Game.iBottle);
-
-        boolean foo = true;
         
-        while (foo) {
+        while (true) {
             
             System.out.print("You... ");
             String[] input = sc.nextLine().split(" ");
@@ -39,7 +37,12 @@ public class Main {
             } catch (IllegalArgumentException e) {
                 System.out.println("Invalid command, please try again.");
             }
-
+            
+            if (player.hp <= 0) {
+                System.out.println("You died. The end.");
+                break;
+            }
+            
         }
         
         sc.close();

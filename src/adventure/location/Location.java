@@ -19,6 +19,8 @@ public abstract class Location {
     
     public abstract Map<Animal, Integer[]> getFauna();
     
+    public abstract boolean hasWater();
+    
     public boolean getHiddenAtFirst() {
         return false;
     }
@@ -38,5 +40,5 @@ public abstract class Location {
     public Integer[] get(Animal animal) {
         return getFauna().get(animal);
     }
-
+    
 }

@@ -16,5 +16,10 @@ public class CmdDie implements Command {
     public String getHelp() {
         return "Usage: die            You kill yourself.";
     }
+    
+    @Override
+    public boolean isHidden() {
+        return true;
+    }
 
 }

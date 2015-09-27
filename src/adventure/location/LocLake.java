@@ -25,4 +25,9 @@ public class LocLake extends Location {
         return map;
     }
 
+    @Override
+    public boolean hasWater() {
+        return true;
+    }
+
 }

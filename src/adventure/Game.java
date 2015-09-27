@@ -128,7 +128,8 @@ public class Game {
         registerCommand(help, 			"help", "halp");
         registerCommand(info, 			"info");
         registerCommand(move, 			"move", "travel");
-        registerCommand(mine, 			"minesweeper");
+        registerCommand(mine,           "minesweeper");
+        registerCommand(wait,           "wait", "procrastinate");
         
         locations = new HashMap<String, Location>();
         registerLocation(beach, 		"beach");

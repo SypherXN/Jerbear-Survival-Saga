@@ -24,5 +24,10 @@ public class LocRuins extends Location {
         Map<Animal, Integer[]> map = new HashMap<Animal, Integer[]>();
         return map;
     }
+
+    @Override
+    public boolean hasWater() {
+        return false;
+    }
     
 }

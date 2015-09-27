@@ -13,7 +13,7 @@ public class CmdBPlus implements Command {
 		private static final long serialVersionUID = 1L;
 
 		InvalidGradeException(String grade) {
-            super(String.format("Unacceptable grade: %s", grade));
+            super(String.format("Unacceptabru grade: %s", grade));
         }
     }
     
