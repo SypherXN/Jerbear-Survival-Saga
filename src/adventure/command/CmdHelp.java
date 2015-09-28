@@ -1,15 +1,17 @@
 package adventure.command;
 
+import java.util.Scanner;
+
 import adventure.Game;
 import adventure.Player;
 
 public class CmdHelp implements Command {
 
     @Override
-    public float onCalled(Player player, Game game, String... args) {
+    public float onCalled(Player player, Game game, Scanner sc, String... args) {
         if (args.length == 1) {
             String out = "Commands:\n";
-            for (String alias: game.getCommands()) {
+            for (String alias: game.getShownCommands()) {
                 out += alias + "\n";
             }
             System.out.println(out);

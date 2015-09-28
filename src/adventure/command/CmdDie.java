@@ -1,12 +1,14 @@
 package adventure.command;
 
+import java.util.Scanner;
+
 import adventure.Game;
 import adventure.Player;
 
 public class CmdDie implements Command {
 
     @Override
-    public float onCalled(Player player, Game game, String... args) {
+    public float onCalled(Player player, Game game, Scanner sc, String... args) {
         System.out.println("You died. The end.");
         System.exit(0);
         return 0f;
@@ -17,9 +19,4 @@ public class CmdDie implements Command {
         return "Usage: die            You kill yourself.";
     }
     
-    @Override
-    public boolean isHidden() {
-        return true;
-    }
-
 }

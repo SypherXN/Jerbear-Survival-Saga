@@ -1,5 +1,7 @@
 package adventure.command;
 
+import java.util.Scanner;
+
 import adventure.Game;
 import adventure.Main;
 import adventure.Player;
@@ -8,7 +10,7 @@ import adventure.item.Item;
 public class CmdGather implements Command {
     
     @Override
-    public float onCalled(Player player, Game game, String... args) {
+    public float onCalled(Player player, Game game, Scanner sc, String... args) {
         try {
             if (args[1].equalsIgnoreCase("water")) {
                 System.out.printf("You gather %sL water.");

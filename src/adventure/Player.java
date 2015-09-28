@@ -3,6 +3,7 @@ package adventure;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Scanner;
 
 import adventure.command.Command;
 import adventure.item.Item;
@@ -167,19 +168,39 @@ public class Player {
         return true;
     }
     
-    public void command(Game game, String... args) throws IllegalArgumentException {
+    public void command(Game game, Scanner sc, String... args) throws IllegalArgumentException {
         Command cmd = game.getCommand(args[0].toLowerCase());
         if (cmd == null) {
             throw new IllegalArgumentException("Invalid command");
         }
-        float time = cmd.onCalled(this, game, args);
+        float time = cmd.onCalled(this, game, sc, args);
         game.time += time;
         while (game.time >= 24) {
             game.day += 1;
             game.time -= 24;
         }
-        hunger -= 2 / time;
-        thirst -= 2 / time;
+        hunger -= 2 * time;
+        thirst -= 2 * time;
+        if (hunger < 5) {
+            hp -= (5-hunger) * time;
+        } else if (hunger > 20) {
+            hp += 10;
+            if (hp > MAXHEALTH) {
+                hp = MAXHEALTH;
+            }
+        }
+        if (thirst == 0) {
+            
+        }
+    }
+    
+    public float cap(int x, int min, int max) {
+        if (x > max) {
+            return max;
+        } else if (x < min) {
+            return min;
+        }
+        return x;
     }
     
 }

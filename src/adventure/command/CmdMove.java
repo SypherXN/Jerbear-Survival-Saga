@@ -1,5 +1,7 @@
 package adventure.command;
 
+import java.util.Scanner;
+
 import adventure.Game;
 import adventure.Player;
 import adventure.location.Location;
@@ -7,7 +9,7 @@ import adventure.location.Location;
 public class CmdMove implements Command {
 
     @Override
-    public float onCalled(Player player, Game game, String... args) {
+    public float onCalled(Player player, Game game, Scanner sc, String... args) {
     	if (args.length == 1) {
     		System.out.println("Move where?");
     		return 0f;

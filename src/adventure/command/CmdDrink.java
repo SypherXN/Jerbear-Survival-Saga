@@ -1,12 +1,14 @@
 package adventure.command;
 
+import java.util.Scanner;
+
 import adventure.Game;
 import adventure.Player;
 
 public class CmdDrink implements Command {
 
     @Override
-    public float onCalled(Player player, Game game, String... args) {
+    public float onCalled(Player player, Game game, Scanner sc, String... args) {
         System.out.println("Drank 0.5L.");
         player.water -= 0.5;
         player.thirst = Player.MAXTHIRST;

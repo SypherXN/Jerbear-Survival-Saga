@@ -1,5 +1,7 @@
 package adventure.command;
 
+import java.util.Scanner;
+
 import adventure.Game;
 import adventure.Player;
 import adventure.item.Item;
@@ -7,7 +9,7 @@ import adventure.item.Item;
 public class CmdEat implements Command {
 
     @Override
-    public float onCalled(Player player, Game game, String... args) {
+    public float onCalled(Player player, Game game, Scanner sc, String... args) {
         try {
             Item item = game.getItem(args[1]);
             if (item.hunger == 0) {
@@ -26,8 +28,7 @@ public class CmdEat implements Command {
 
     @Override
     public String getHelp() {
-        // TODO Auto-generated method stub
-        return null;
+        return "POOTIS POOTIS POOTIS POOTIS";
     }
 
 }

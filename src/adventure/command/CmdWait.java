@@ -1,12 +1,14 @@
 package adventure.command;
 
+import java.util.Scanner;
+
 import adventure.Game;
 import adventure.Player;
 
 public class CmdWait implements Command {
 
     @Override
-    public float onCalled(Player player, Game game, String... args) {
+    public float onCalled(Player player, Game game, Scanner sc, String... args) {
         try {
             float f = Float.parseFloat(args[1]);
             if (f <= 0) {

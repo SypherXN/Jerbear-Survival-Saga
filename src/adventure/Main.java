@@ -33,7 +33,7 @@ public class Main {
             System.out.print("You... ");
             String[] input = sc.nextLine().split(" ");
             try {
-                player.command(game, input);
+                player.command(game, sc, input);
             } catch (IllegalArgumentException e) {
                 System.out.println("Invalid command, please try again.");
             }

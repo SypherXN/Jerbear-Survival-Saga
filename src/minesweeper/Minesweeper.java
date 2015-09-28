@@ -3,7 +3,6 @@ package minesweeper;
 import java.util.Scanner;
 
 import adventure.Main;
-import adventure.command.CmdMine;
 
 /**
  * Standalone Minesweeper
@@ -15,6 +14,11 @@ public class Minesweeper {
 
     public static void play() {
         Scanner sc = new Scanner(System.in);
+        play(sc);
+        sc.close();
+    }
+    
+    public static void play(Scanner sc) {
         int[][] grid = new int[WIDTH][HEIGHT];
         boolean[][] mask = new boolean[WIDTH][HEIGHT]; // Note to self: true means hidden
         boolean[][] win = new boolean[WIDTH][HEIGHT];
@@ -83,7 +87,6 @@ public class Minesweeper {
                 System.out.println("You win!");
             }
         }
-        sc.close();
     }
     
     public static void minesweepfloodfill(int x, int y, int old, int replace, int[][] grid) {
@@ -142,9 +145,4 @@ public class Minesweeper {
         }
         return s;
     }
-    
-    public static void main(String[] args) {
-        new CmdMine().onCalled(null, null, "minesweeper");
-    }
-    
 }

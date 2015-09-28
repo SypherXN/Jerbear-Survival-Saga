@@ -1,22 +1,25 @@
 package adventure;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import adventure.command.CmdAttack;
-import adventure.command.CmdBPlus;
 import adventure.command.CmdCheck;
 import adventure.command.CmdCraft;
 import adventure.command.CmdDie;
+import adventure.command.CmdEat;
 import adventure.command.CmdGather;
 import adventure.command.CmdHelp;
 import adventure.command.CmdInfo;
 import adventure.command.CmdMine;
 import adventure.command.CmdMove;
+import adventure.command.CmdTiger;
 import adventure.command.CmdWait;
 import adventure.command.Command;
+import adventure.command.dev.CmdDevGive;
 import adventure.item.Item;
 import adventure.item.RangedWeapon;
 import adventure.location.LocBeach;
@@ -76,20 +79,25 @@ public class Game {
     /************************************  COMMANDS ***************************************/
     public static final Command
     		attack = 		new CmdAttack(),
-    		bplus =         new CmdBPlus(),
+    		tiger =         new CmdTiger(),
     		check =			new CmdCheck(),
     		craft = 		new CmdCraft(),
-    		die = 			new CmdDie(),
+            die =           new CmdDie(),
+            eat =           new CmdEat(),
     		gather = 		new CmdGather(),
     		help = 			new CmdHelp(),
     		info = 			new CmdInfo(),
 			move = 			new CmdMove(),
 			mine = 			new CmdMine(),
-    		wait = 			new CmdWait()
+    		wait = 			new CmdWait(),
+    		
+    		devGive =     new CmdDevGive()
     ;
     
     public int day;
     public float time;
+    
+    private List<String> shownCommands;
     
     private Map<String, Item> items;
     private Map<Item, Recipe> recipes;
@@ -97,11 +105,20 @@ public class Game {
     private Map<String, Location> locations;
     
     public Game() {
+        this(false);
+    }
+    
+    public Game(boolean includeDev) {
         
         day = 0;
         time = 0;
         
-        items = new HashMap<String, Item>();
+        shownCommands = new ArrayList<String>();
+        items =         new HashMap<String, Item>();
+        recipes =       new HashMap<Item, Recipe>();
+        commands =      new HashMap<String, Command>();
+        locations =     new HashMap<String, Location>();
+
         registerItem(iArrow,			"arrow");
         registerItem(iBottle,			"bottle", "canteen");
         registerItem(iBow,				"bow");
@@ -116,26 +133,31 @@ public class Game {
         registerItem(iWeed,				"weed", "chris", "420");
         registerItem(iWood,				"wood");
         
-        recipes = new HashMap<Item, Recipe>();
-        registerRecipe(iBow,   	1, new Item[]{iKnife}, 	iWood, iWood, iWood, iVine, iVine);
-        registerRecipe(iArrow, 	4, 						iFlint, iFlint, iWood, iVine);
+        registerRecipe(iBow,   	1, new Item[] {iKnife}, iWood, iWood, iWood, iVine, iVine);
+        registerRecipe(iArrow, 	4, 				    	iFlint, iFlint, iWood, iVine);
         
-        commands = new HashMap<String, Command>();
-        registerCommand(bplus,          "a- b+ b- c+ c- d+ d- f+ f-".split(" "));
         registerCommand(check,          "check", "inspect");
-        registerCommand(die, 			"die", "suicide", "sepukku", "disgrace");
+        registerCommand(craft,          "craft", "make", "build", "smith");
+        registerCommand(die,            "die", "suicide", "sepukku");
+        registerCommand(eat,            "eat", "nom", "consume");
         registerCommand(gather, 		"gather", "fetch");
         registerCommand(help, 			"help", "halp");
         registerCommand(info, 			"info");
         registerCommand(move, 			"move", "travel");
-        registerCommand(mine,           "minesweeper");
+        registerCommand(mine, true,     "minesweeper");
+        registerCommand(tiger, true,    "a+ a- b+ b- c+ c- d+ d- f+ f-".split(" "));
         registerCommand(wait,           "wait", "procrastinate");
         
-        locations = new HashMap<String, Location>();
+        if (includeDev) {
+            registerCommand(devGive,    "_give");
+        }
+        
         registerLocation(beach, 		"beach");
         registerLocation(jungle, 		"jungle");
         registerLocation(lake, 			"lake");
         registerLocation(ruins, 		"ruins");
+        
+        Collections.sort(shownCommands);
         
     }
     
@@ -154,6 +176,17 @@ public class Game {
     }
     
     private void registerCommand(Command callback, String... names) {
+        registerCommand(callback, false, names);
+    }
+    
+    private void registerCommand(Command callback, boolean hidden, String... names) {
+        try {
+            if (!hidden) {
+                shownCommands.add(names[0]);
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new IllegalArgumentException("Did not specify a name for the command!");
+        }
         for (String n: names) {
             this.commands.put(n.toLowerCase(), callback);
         }
@@ -165,15 +198,8 @@ public class Game {
     	}
     }
     
-    public List<String> getCommands() {
-    	List<String> cmds = new ArrayList<String>();
-    	for (String c: commands.keySet()) {
-    		if (commands.get(c).isHidden()) {
-    			continue;
-    		}
-    		cmds.add(c);
-    	}
-    	return cmds;
+    public List<String> getShownCommands() {
+    	return shownCommands;
     }
     
     public Recipe getRecipe(Item item) {
