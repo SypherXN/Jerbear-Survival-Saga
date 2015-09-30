@@ -18,7 +18,7 @@ public class Main {
         
         rollout(
                 "Survival game",
-                100l, ", programmed by Maxim, designed by Matthew and Jerry\n",
+                100l, ", programmed and designed by Maxim\n",
                 100l, "You are stranded on an island.\n"
         );
         

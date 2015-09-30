@@ -25,9 +25,9 @@ public class RangedWeapon extends Item {
             return false;
         }
         if (random.nextFloat() < CRITCHANCE) {
-            animal.hp -= CRITMULTI * damage;
+            //animal.hp -= CRITMULTI * damage;
         } else {
-            animal.hp -= damage;
+            //animal.hp -= damage;
         }
         return true;
     }

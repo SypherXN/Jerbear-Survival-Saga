@@ -62,16 +62,22 @@ public class CmdCheck implements Command {
             counts.add(String.format("%s %s", items.get(i), i.name));
         }
         Collections.sort(counts);
-        if (counts.size() == 2) {
-            return String.format("%s and %s", counts.get(0), counts.get(1));
+        return listString(counts.toArray());
+    }
+
+    public static String listString(Object[] items) {
+        if (items.length == 1) {
+            return String.valueOf(items[0]);
+        } else if (items.length == 2) {
+            return String.format("%s and %s", items[0], items[1]);
         }
         String out = "";
         int i = 0;
-        for (String s: counts) {
-            if (i == counts.size() - 1) {
-                out += "and " + s;
+        for (Object s: items) {
+            if (i == items.length - 1) {
+                out += "and " + String.valueOf(s);
             } else {
-                out += s + ", ";
+                out += String.valueOf(s) + ", ";
             }
             i++;
         }

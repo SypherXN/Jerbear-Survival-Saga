@@ -26,7 +26,7 @@ public class CmdTiger implements Command {
 
     @Override
     public String getHelp() {
-        return Game.die.getHelp();
+        return Game.cDie.getHelp();
     }
     
 }

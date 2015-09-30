@@ -72,7 +72,7 @@ public class Item {
         if (damage <= 0) {
             return false;
         }
-        target.hp -= damage;
+        //target.hp -= damage;
         return true;
     }
     

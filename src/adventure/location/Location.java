@@ -17,7 +17,17 @@ public abstract class Location {
     
     public abstract Map<Item, Integer[]> getResources();
     
-    public abstract Map<Animal, Integer[]> getFauna();
+    /**
+     * Animals that you can find using track.
+     * @return A mapping of animals to the chance of finding one using track.
+     */
+    public abstract Map<Animal, Float> getFauna();
+    
+    /**
+     * Animals that can ambush you while you do stuff.
+     * @return A mapping of animals to the chance of getting ambushed per hour.
+     */
+    public abstract Map<Animal, Float> getPredators();
     
     public abstract boolean hasWater();
     
@@ -37,7 +47,7 @@ public abstract class Location {
         return getResources().get(item);
     }
 
-    public Integer[] get(Animal animal) {
+    public float get(Animal animal) {
         return getFauna().get(animal);
     }
     

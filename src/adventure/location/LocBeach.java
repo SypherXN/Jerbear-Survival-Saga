@@ -22,8 +22,15 @@ public class LocBeach extends Location {
     }
 
     @Override
-    public Map<Animal, Integer[]> getFauna() {
-        Map<Animal, Integer[]> map = new HashMap<Animal, Integer[]>();
+    public Map<Animal, Float> getFauna() {
+        Map<Animal, Float> map = new HashMap<Animal, Float>();
+        map.put(Game.aCrab, 1f);
+        return map;
+    }
+
+    @Override
+    public Map<Animal, Float> getPredators() {
+        Map<Animal, Float> map = new HashMap<Animal, Float>();
         return map;
     }
 

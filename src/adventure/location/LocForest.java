@@ -7,11 +7,11 @@ import adventure.Animal;
 import adventure.Game;
 import adventure.item.Item;
 
-public class LocJungle extends Location {
+public class LocForest extends Location {
 
     @Override
     public String getName() {
-        return "Jungle";
+        return "Forest";
     }
 
     @Override
@@ -23,8 +23,19 @@ public class LocJungle extends Location {
     }
 
     @Override
-    public Map<Animal, Integer[]> getFauna() {
-        Map<Animal, Integer[]> map = new HashMap<Animal, Integer[]>();
+    public Map<Animal, Float> getFauna() {
+        Map<Animal, Float> map = new HashMap<Animal, Float>();
+        map.put(Game.aShia, 0.01f);
+        map.put(Game.aBear, 0.1f);
+        map.put(Game.aDeer, 0.5f);
+        return map;
+    }
+
+    @Override
+    public Map<Animal, Float> getPredators() {
+        Map<Animal, Float> map = new HashMap<Animal, Float>();
+        map.put(Game.aShia, 0.01f);
+        map.put(Game.aBear, 0.2f);
         return map;
     }
 

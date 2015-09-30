@@ -20,15 +20,37 @@ public class Player {
     
     public Location location;
     private List<Item> inventory, storage;
+    private List<Animal> foundAnimals;
     public float water, hp, hunger, thirst;
     
     public Player() {
         inventory = new ArrayList<Item>();
         storage = new ArrayList<Item>();
+        foundAnimals = new ArrayList<Animal>();
         water = getMaxWater();
         hp = MAXHEALTH;
         hunger = MAXHUNGER;
         thirst = MAXTHIRST;
+    }
+    
+    /**
+     * Fight mode
+     * @param animal The target
+     * @param isHiding Is sneak attacking
+     * @return How long the fight lasts
+     */
+    public float attack(Animal animal, boolean isHiding) {
+        float timeElapsed = 0f;
+        while (true) {
+            /*
+             * hiding, ambush animals
+             * attack
+             * run
+             */
+            timeElapsed += 0.05f;
+            break;
+        }
+        return timeElapsed;
     }
     
     public void invAdd(Item... items) {
@@ -168,6 +190,23 @@ public class Player {
         return true;
     }
     
+    public List<Animal> getAnimalsFound() {
+        return foundAnimals;
+    }
+    
+    public void findAnimal(Animal animal) {
+        if (foundAnimals.contains(animal)) {
+            System.out.println("fo");
+            return;
+        }
+        foundAnimals.add(animal);
+    }
+    
+    public boolean hasFoundAnimal(Animal animal) {
+        System.out.println(foundAnimals);
+        return foundAnimals.contains(animal);
+    }
+    
     public void command(Game game, Scanner sc, String... args) throws IllegalArgumentException {
         Command cmd = game.getCommand(args[0].toLowerCase());
         if (cmd == null) {
@@ -190,7 +229,7 @@ public class Player {
             }
         }
         if (thirst == 0) {
-            
+            hp -= 50 * time;
         }
     }
     
