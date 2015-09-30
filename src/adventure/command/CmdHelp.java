@@ -10,11 +10,11 @@ public class CmdHelp implements Command {
     @Override
     public float onCalled(Player player, Game game, Scanner sc, String... args) {
         if (args.length == 1) {
-            String out = "Commands:\n";
+            String commands = "";
             for (String alias: game.getShownCommands()) {
-                out += alias + "\n";
+                commands += alias + "\n";
             }
-            System.out.println(out);
+            System.out.printf("Commands: \n%s", commands);
         }
         if (args.length == 2) {
             Command cmd = game.getCommand(args[1]);

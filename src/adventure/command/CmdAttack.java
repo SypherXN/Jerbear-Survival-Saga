@@ -2,9 +2,10 @@ package adventure.command;
 
 import java.util.Scanner;
 
-import adventure.Animal;
 import adventure.Game;
+import adventure.Main;
 import adventure.Player;
+import adventure.animal.Animal;
 
 public class CmdAttack implements Command {
 
@@ -17,22 +18,22 @@ public class CmdAttack implements Command {
                 return 0f;
             }
             if (!player.hasFoundAnimal(animal)) {
-                System.out.printf("You have not found a %s, go find one.\n", animal.name);
+                System.out.printf("You have not found a %s, go find one.\n", animal.getName());
                 return 0f;
             }
-            boolean doAttack = yesno(
+            boolean doAttack = Main.yesno(
                     sc,
                     String.format(
                         "Do you want to attack the %1$s?\n"
                         + "Your HP: %2$s    %1$s HP: %3$s\n",
-                        animal.name, player.hp, animal.hp
+                        animal.getName(), player.hp, animal.getHealth()
                     )
             );
             if (!doAttack) {
                 System.out.println("Aborted.");
                 return 0f;
             }
-            return player.attack(animal, false);
+            return player.fight(sc, game, animal, false);
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Attack what?");
         }
@@ -43,20 +44,6 @@ public class CmdAttack implements Command {
     public String getHelp() {
         // TODO Auto-generated method stub
         return null;
-    }
-    
-    public static boolean yesno(Scanner sc, String question) {
-        System.out.print(question);
-        while (true) {
-            String response = sc.nextLine().toLowerCase();
-            if (response.equals("y") || response.equals("yes") || response.equals("true")) {
-                return true;
-            } else if (response.equals("n") || response.equals("no") || response.equals("false")) {
-                return false;
-            } else {
-                System.out.println("Invalid response, try again.");
-            }
-        }
     }
     
 }

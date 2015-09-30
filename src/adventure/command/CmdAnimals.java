@@ -3,9 +3,10 @@ package adventure.command;
 import java.util.List;
 import java.util.Scanner;
 
-import adventure.Animal;
 import adventure.Game;
+import adventure.Main;
 import adventure.Player;
+import adventure.animal.Animal;
 
 public class CmdAnimals implements Command {
 
@@ -18,9 +19,9 @@ public class CmdAnimals implements Command {
         }
         String[] names = new String[animals.size()];
         for (int i=0; i < names.length; i++) {
-            names[i] = animals.get(i).name;
+            names[i] = animals.get(i).getName();
         }
-        System.out.printf("You have found a %s.", CmdCheck.listString(names));
+        System.out.printf("You have found a %s.", Main.listString(names));
         return 0;
     }
 

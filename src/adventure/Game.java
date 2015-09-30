@@ -6,6 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import adventure.animal.AnimBear;
+import adventure.animal.AnimChicken;
+import adventure.animal.AnimCrab;
+import adventure.animal.AnimDeer;
+import adventure.animal.AnimShia;
+import adventure.animal.AnimWolf;
+import adventure.animal.Animal;
 import adventure.command.CmdAnimals;
 import adventure.command.CmdAttack;
 import adventure.command.CmdCheck;
@@ -47,11 +54,18 @@ public class Game {
             iBow =       	    new RangedWeapon("Bow", "Retractable shooty-thingy", 1.5f, 3f, 10f, iArrow),
             iHammer =    	    new Item("Hammer", "Stop, hammertime", 2f, 0.5f, 10f),
             iKnife =     	    new Item("Knife", "For cutting and burning", 0.5f, 1f, 5f),
-            iSpear =     	    new Item("Spear", "Poke", 4f, 5f, 20f),
+            iSpear =            new Item("Spear", "Poke", 4f, 5f, 20f),
+            iFists =            new Item("Fists", "It's all you got...", 0f, 0f, 1f),
+            //combustible lemon launcher
     
     // Food
-            iRchicken = 	    new Item("Raw Chicken", "Are you chicken?", 2f),
-            iCchicken = 	    new Item("Cooked Chicken", "Kung Pao or KFC?", 5f),
+            iRchicken =         new Item("Raw Chicken", "Are you chicken?", 2f),
+            iCchicken =         new Item("Cooked Chicken", "Kung Pao or KFC?", 5f),
+            iRcrab =            new Item("Raw Crab", "Are you crab?", 1.5f),
+            iCcrab =            new Item("Cooked Crab", "Krusty Krab", 4f),
+            iLemon =            new Item("Lemon", "It's sour", 0.5f),
+            iPepper =           new Item("Chili Pepper", "It's spicy", 0.5f),
+
             iWeed = 		    new Item("Chris Item", "It looks like a fan", .420f)
     ;
     
@@ -59,14 +73,14 @@ public class Game {
     public static final Animal 
     
     // Non-hostile
-            aChicken =          new Animal("Chicken", 10f, 0f),
-            aCrab =             new Animal("Crab", 5f, 0f),
-            aDeer = 			new Animal("Deer", 50f, 0f),
+            aChicken =          new AnimChicken(),
+            aCrab =             new AnimCrab(),
+            aDeer = 			new AnimDeer(),
     
     // Hostile
-            aWolf = 			new Animal("Wolf", 20f, 20f),
-            aBear =             new Animal("Bear", 80f, 50f),
-            aShia =             new Animal("Actual Cannibal Shia LaBeouf", 100f, 25f)
+            aBear =             new AnimBear(),
+            aWolf = 			new AnimWolf(),
+            aShia =             new AnimShia()
     
     ;
     
@@ -150,8 +164,8 @@ public class Game {
         registerAnimal(aBear,           "bear", "arms");
         registerAnimal(aShia,           "shia", "cannibal");
         
-        registerRecipe(iBow,   	1, new Item[] {iKnife}, iWood, iWood, iWood, iVine, iVine);
-        registerRecipe(iArrow, 	4, 				    	iFlint, iFlint, iWood, iVine);
+        registerRecipe(iBow,   	1,  new Item[] {iKnife},    iWood, iWood, iWood, iVine, iVine);
+        registerRecipe(iArrow, 	4, 				    	    iFlint, iFlint, iWood, iVine);
         
         registerCommand(cAnimals,       "animals");
         registerCommand(cAttack,        "attack", "fight", "pwn", "rek");
@@ -173,8 +187,8 @@ public class Game {
         }
         
         registerLocation(lBeach, 		"beach");
-        registerLocation(lForest, 		"jungle");
-        registerLocation(lLake, 			"lake");
+        registerLocation(lForest, 		"forest", "trees");
+        registerLocation(lLake, 	    "lake");
         registerLocation(lRuins, 		"ruins");
         
         Collections.sort(shownCommands);

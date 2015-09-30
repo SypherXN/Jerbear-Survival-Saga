@@ -3,6 +3,8 @@ package adventure.command;
 import java.util.Scanner;
 
 import adventure.Game;
+import adventure.InvOutOfVolumeException;
+import adventure.InvOutOfWeightException;
 import adventure.Main;
 import adventure.Player;
 import adventure.item.Item;
@@ -24,6 +26,13 @@ public class CmdGather implements Command {
                 if (range == null) {
                     System.out.printf("There is no %s in the %s.\n", item.name, player.location.getName());
                 } else {
+                    float maxVolume = item.volume * (float) range[1], maxWeight = item.weight * (float) range[1];
+                    if (maxWeight + player.getWeight() > Player.MAXWEIGHT) {
+                        throw new InvOutOfWeightException();
+                    }
+                    if (maxVolume + player.getVolume() > Player.MAXVOLUME) {
+                        throw new InvOutOfVolumeException();
+                    }
                     int amount = Main.rand.nextInt(range[1] - range[0]) + range[0];
                     player.invAdd(item, amount);
                     System.out.printf("You gather %s %s.\n", amount, item.name.toLowerCase());
@@ -32,8 +41,12 @@ public class CmdGather implements Command {
             return 1f;
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Gather what?");
-            return 0f;
+        } catch (InvOutOfVolumeException e) {
+            System.out.println("Your inventory is out of space.");
+        } catch (InvOutOfWeightException e) {
+            System.out.println("You are overburdened and cannot gather things.");
         }
+        return 0f;
     }
 
     @Override

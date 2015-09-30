@@ -12,6 +12,10 @@ public class CmdEat implements Command {
     public float onCalled(Player player, Game game, Scanner sc, String... args) {
         try {
             Item item = game.getItem(args[1]);
+            if (item == null) {
+                System.out.println("Invalid item, try again.");
+                return 0f;
+            }
             if (item.hunger == 0) {
                 System.out.printf("You cannot eat that %s.\n", item.name);
                 return 0f;
@@ -19,6 +23,9 @@ public class CmdEat implements Command {
             player.hunger += item.hunger + 1;
             player.invRemove(item);
             System.out.printf("You ate the %s.", item.name);
+            if (item.equals(Game.iWeed)) {
+                System.out.println("You start seeing things.");
+            }
             return 0.5f;
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Eat what?");

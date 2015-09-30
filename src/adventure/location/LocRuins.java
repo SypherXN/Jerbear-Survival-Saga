@@ -3,8 +3,8 @@ package adventure.location;
 import java.util.HashMap;
 import java.util.Map;
 
-import adventure.Animal;
 import adventure.Game;
+import adventure.animal.Animal;
 import adventure.item.Item;
 
 public class LocRuins extends Location {

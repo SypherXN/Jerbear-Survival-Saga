@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-import adventure.Animal;
 import adventure.Game;
 import adventure.Main;
 import adventure.Player;
+import adventure.animal.Animal;
 
 public class CmdTrack implements Command {
 
@@ -19,14 +19,14 @@ public class CmdTrack implements Command {
             List<String> foundAnimals = new ArrayList<String>();
             for (Animal a: fauna.keySet()) {
                 if (Main.rand.nextFloat() <= fauna.get(a)); {
-                    foundAnimals.add("a " + a.name);
+                    foundAnimals.add("a " + a.getName());
                     player.findAnimal(a);
                 }
             }
             if (foundAnimals.size() == 0) {
                 System.out.println("Found nothing."); 
             } else {
-                System.out.printf("Found %s.\n", CmdCheck.listString(foundAnimals.toArray()));
+                System.out.printf("Found %s.\n", Main.listString(foundAnimals.toArray()));
             }
             return 1f;
         }

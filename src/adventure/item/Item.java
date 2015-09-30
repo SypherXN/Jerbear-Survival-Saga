@@ -1,8 +1,8 @@
 package adventure.item;
 
-import adventure.Animal;
 import adventure.Player;
 import adventure.Recipe;
+import adventure.animal.Animal;
 
 public class Item {
     
@@ -59,7 +59,7 @@ public class Item {
      * @param damage
      */
     public Item(String name, String desc, float weight, float volume, float damage) {
-        this(name, desc, weight, volume, 0, 0);
+        this(name, desc, weight, volume, 0, damage);
     }
     
     /**

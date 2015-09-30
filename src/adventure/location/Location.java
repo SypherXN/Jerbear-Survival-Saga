@@ -2,7 +2,7 @@ package adventure.location;
 
 import java.util.Map;
 
-import adventure.Animal;
+import adventure.animal.Animal;
 import adventure.item.Item;
 
 public abstract class Location {
@@ -10,11 +10,15 @@ public abstract class Location {
     private boolean hidden;
     
     public Location() {
-        setHidden(getHiddenAtFirst());
+        hidden = getHiddenAtFirst();
     }
     
     public abstract String getName();
     
+    /**
+     * All the resources and their quantities here.
+     * @return A mapping of items to an array that depicts the range {least items, most items}
+     */
     public abstract Map<Item, Integer[]> getResources();
     
     /**
@@ -37,10 +41,6 @@ public abstract class Location {
 
     public boolean isHidden() {
         return hidden;
-    }
-
-    public void setHidden(boolean hidden) {
-        this.hidden = hidden;
     }
     
     public Integer[] get(Item item) {

@@ -3,8 +3,8 @@ package adventure.location;
 import java.util.HashMap;
 import java.util.Map;
 
-import adventure.Animal;
 import adventure.Game;
+import adventure.animal.Animal;
 import adventure.item.Item;
 
 public class LocForest extends Location {
@@ -19,6 +19,7 @@ public class LocForest extends Location {
         Map<Item, Integer[]> map = new HashMap<Item, Integer[]>();
         map.put(Game.iWood, new Integer[] {5, 12});
         map.put(Game.iWeed, new Integer[] {0, 1});
+        map.put(Game.iVine, new Integer[] {2, 5});
         return map;
     }
 
@@ -35,7 +36,7 @@ public class LocForest extends Location {
     public Map<Animal, Float> getPredators() {
         Map<Animal, Float> map = new HashMap<Animal, Float>();
         map.put(Game.aShia, 0.01f);
-        map.put(Game.aBear, 0.2f);
+        map.put(Game.aBear, 0.1f);
         return map;
     }
 

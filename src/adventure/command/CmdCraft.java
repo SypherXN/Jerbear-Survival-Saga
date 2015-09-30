@@ -5,6 +5,9 @@ import java.util.Map;
 import java.util.Scanner;
 
 import adventure.Game;
+import adventure.InvOutOfVolumeException;
+import adventure.InvOutOfWeightException;
+import adventure.Main;
 import adventure.Player;
 import adventure.Recipe;
 import adventure.item.Item;
@@ -31,16 +34,20 @@ public class CmdCraft implements Command {
                 }
                 items.put(i, items.get(i) + 1);
             }
-            System.out.printf("You require %s, are you sure?", CmdCheck.listItems(items));
+            System.out.printf("You require %s, are you sure?", Main.listItems(items));
             if (!player.canCraft(game, item)) {
                 System.out.println("You are missing items.");
                 return 0f;
             }
-            player.invRemove(r.ingredients);
             player.invAdd(item);
-        	return 0f;
+            player.invRemove(r.ingredients);
+        	return 0.5f;
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Craft what?");
+        } catch (InvOutOfVolumeException e) {
+            System.out.println("Your inventory is out of space.");
+        } catch (InvOutOfWeightException e) {
+            System.out.println("You are overburdened and cannot craft.");
         }
         return 0f;
     }

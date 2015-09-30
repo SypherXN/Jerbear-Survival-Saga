@@ -2,8 +2,8 @@ package adventure.item;
 
 import java.util.Random;
 
-import adventure.Animal;
 import adventure.Player;
+import adventure.animal.Animal;
 
 public class RangedWeapon extends Item {
     
