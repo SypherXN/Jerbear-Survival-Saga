@@ -17,50 +17,57 @@ public class Main {
 
         Scanner sc = new Scanner(System.in);
         
-        System.out.print("What is your name? ");
-        String name = sc.nextLine();
-        
-        rollout(
-                "Survival game",
-                100l, ", programmed and designed by Maxim\n",
-                100l, "You are stranded on an island.\n"
-        );
-        
-        Game game = new Game();
-        
-        Player player = new Player(name);
-        player.location = game.getLocation("beach");
-        try {
-            player.invAdd(Game.iKnife, Game.iBottle);
-        } catch (InvOutOfVolumeException e1) {
-            e1.printStackTrace();
-        } catch (InvOutOfWeightException e1) {
-            e1.printStackTrace();
-        }
-        
-        while (true) {
+        while (true) overarching:{
             
-            System.out.printf(
-                    "Health: %s; Hunger: %s; Thirst: %s\n",
-                    player.hp, player.hunger, player.thirst
+            System.out.print("What is your name? ");
+            String name = sc.nextLine();
+            
+            rollout(
+                    "Survival game",
+                    100l, ", programmed and designed by Maxim\n",
+                    100l, "You are stranded on an island.\n"
             );
-            System.out.print("You... ");
-            String[] input = sc.nextLine().split(" ");
+            
+            Game game = new Game();
+            
+            Player player = new Player(name);
+            player.location = game.getLocation("beach");
             try {
-                player.command(game, sc, input);
-            } catch (IllegalArgumentException e) {
-                System.out.println("Invalid command, please try again.");
+                player.invAdd(Game.iKnife, Game.iBottle);
+            } catch (InvOutOfVolumeException e1) {
+                e1.printStackTrace();
+            } catch (InvOutOfWeightException e1) {
+                e1.printStackTrace();
             }
             
-            if (player.hp <= 0) {
-                System.out.println("You died. The end.");
-                break;
+            while (true) gameloop:{
+                
+                System.out.printf(
+                        "Health: %s; Hunger: %s; Thirst: %s\n",
+                        player.hp, player.hunger, player.thirst
+                );
+                System.out.print("You... ");
+                String[] input = sc.nextLine().split(" ");
+                try {
+                    player.command(game, sc, input);
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Invalid command, please try again.");
+                }
+                
+                if (player.hp <= 0) {
+                    rollout("You died. ", 500l, "Try again?");
+                    if (yesno(sc, "")) {
+                        break gameloop;
+                    } else {
+                        sc.close();
+                        break overarching;
+                    }
+                }
+                
             }
-            
+         
         }
-        
-        sc.close();
-        
+                
     }
     
     /**

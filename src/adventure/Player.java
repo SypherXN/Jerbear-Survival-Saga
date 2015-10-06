@@ -147,10 +147,10 @@ public class Player {
         }
     }
     
-    public void invRemove(Item... items) {
+    public void invRemove(Item... items) throws InvDoesNotContainItemException {
         for (Item i: items) {
             if (!invContains(i)) {
-                throw new IllegalArgumentException(String.format("The inventory is missing %s.", i));
+                throw new InvDoesNotContainItemException(i);
             }
         }
         for (Item i: items) {
@@ -158,9 +158,9 @@ public class Player {
         }
     }
     
-    public void invRemove(Item item, int n) {
+    public void invRemove(Item item, int n) throws InvDoesNotContainItemException {
         if (!invContains(item)) {
-            throw new IllegalArgumentException(String.format("The inventory is missing %s.", item));
+            throw new InvDoesNotContainItemException(item);
         }
         for (int x=0; x < n; x++) {
             inventory.remove(item);
@@ -287,7 +287,7 @@ public class Player {
         float time = cmd.onCalled(this, game, sc, args);
         Location loc = this.location;
         for (Animal a: loc.getPredators().keySet()) {
-            if (Main.rand.nextFloat() * time < loc.getPredators().get(a)) {
+            if (Main.rand.nextFloat() < loc.getPredators().get(a)) {
                 System.out.printf("A %s ambushes you!\n", a.getName(), args[0]);
                 game.time += this.fight(sc, game, a, false);
                 break;

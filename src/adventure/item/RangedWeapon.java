@@ -2,6 +2,7 @@ package adventure.item;
 
 import java.util.Random;
 
+import adventure.InvDoesNotContainItemException;
 import adventure.Player;
 import adventure.animal.Animal;
 
@@ -21,7 +22,7 @@ public class RangedWeapon extends Item {
     public boolean attack(Player player, Animal animal) {
         try {
             player.invRemove(ammo);
-        } catch (IllegalArgumentException e) {
+        } catch (InvDoesNotContainItemException e) {
             return false;
         }
         if (random.nextFloat() < CRITCHANCE) {

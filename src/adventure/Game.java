@@ -17,8 +17,10 @@ import adventure.animal.Animal;
 import adventure.command.CmdAnimals;
 import adventure.command.CmdAttack;
 import adventure.command.CmdCheck;
+import adventure.command.CmdCook;
 import adventure.command.CmdCraft;
 import adventure.command.CmdDie;
+import adventure.command.CmdDrink;
 import adventure.command.CmdEat;
 import adventure.command.CmdGather;
 import adventure.command.CmdHelp;
@@ -45,14 +47,14 @@ public class Game {
     public static final Item 
     
     // Materials and Mundanes
-            iIron =             new Item("Metal", "Don't drop it on your toe", 2f, 0.5f),
+            iIron =             new Item("Iron", "Don't drop it on your toe", 2f, 0.5f),
             iWood =             new Item("Wood", "Made from trees", 0.5f, 1f),
             iRock =      	    new Item("Rock", "It rocks", 1f, 0.5f),
             iFlint =            new Item("Flint", "It's sharp", 0.5f, 1f),
             iTorch =            new Item("Torch", "It's kind of hot", 0.5f, 2f),
             iPcb =              new Item("PCB", "A printed circuit board for cannons", 0.1f, 1f),
             iVine =     	    new Item("Vine", "6-second videos", 0.5f, 1f),
-            iBottle =    	    new Item("Bottle", "Swallow", 0.25f, .25f),
+            iBottle =    	    new Item("Bottle", "Glug glug glug", 0.25f, .25f),
     
     // Weapons
             iArrow =     	    new Item("Arrow", "Pew-pew wait nvm its not a laser", 0.5f, 1f),
@@ -63,7 +65,6 @@ public class Game {
             iKnife =            new Item("Knife", "For cutting and burning", 0.5f, 1f, 5f),
             iSpear =            new Item("Spear", "Poke", 4f, 5f, 20f),
             iFists =            new Item("Fists", "It's all you got...", 0f, 0f, 1f),
-            //combustible lemon launcher
     
     // Food
             iRchicken =         new Item("Raw Chicken", "Are you chicken?", 2f),
@@ -110,8 +111,10 @@ public class Game {
             cAttack =           new CmdAttack(),
     		cTiger =            new CmdTiger(),
     		cCheck =			new CmdCheck(),
-    		cCraft = 		    new CmdCraft(),
+            cCook =             new CmdCook(),
+            cCraft =            new CmdCraft(),
             cDie =              new CmdDie(),
+            cDrink =            new CmdDrink(),
             cEat =              new CmdEat(),
     		cGather = 		    new CmdGather(),
     		cHelp = 			new CmdHelp(),
@@ -131,6 +134,7 @@ public class Game {
     private List<String> shownCommands;
     
     private Map<String, Item> items;
+    private Map<Item, Item> cookables;
     private Map<Item, Recipe> recipes;
     private Map<String, Command> commands;
     private Map<String, Location> locations;
@@ -147,6 +151,7 @@ public class Game {
         
         shownCommands = new ArrayList<String>();
         items =         new HashMap<String, Item>();
+        cookables =     new HashMap<Item, Item>();
         recipes =       new HashMap<Item, Recipe>();
         commands =      new HashMap<String, Command>();
         locations =     new HashMap<String, Location>();
@@ -156,6 +161,7 @@ public class Game {
         registerItem(iBottle,			"bottle", "canteen");
         registerItem(iBow,				"bow");
         registerItem(iCchicken,         "cookedchicken", "kungpao", "kfc");
+        registerItem(iCcrab,            "cookedcrab", "popeye", "redlobster");
         registerItem(iCLemon,           "combustiblelemon", "cavelemon", "molotov", "incendiarylemon");
         registerItem(iCLemonGun,        "lemonlauncher", "lemongun");
         registerItem(iFlint,			"flint");
@@ -165,8 +171,10 @@ public class Game {
         registerItem(iPepper,           "pepper", "jalapeno", "spicy");
         registerItem(iPcb,              "pcb", "arduino", "raspberrypi");
         registerItem(iRchicken,         "rawchicken");
+        registerItem(iRcrab,            "rawcrab");
         registerItem(iRock,				"rock", "stone");
-        registerItem(iSpear,			"spear");
+        registerItem(iSpear,            "spear");
+        registerItem(iTorch,            "torch", "burnystick");
         registerItem(iVine,				"vines", "vine");
         registerItem(iWeed,				"weed", "chris", "420");
         registerItem(iWood,             "wood");
@@ -175,6 +183,7 @@ public class Game {
         registerAnimal(aCrab,           "crab", "pinchy", "lobster", "crustacean");
         registerAnimal(aDeer,           "deer", "moose", "meese");
         registerAnimal(aWolf,           "wolf", "dog", "canine", "rover", "dinner");
+        registerAnimal(aRobot,          "robot", "4chainz", "beepboop", "blender", "hal");
         registerAnimal(aBear,           "bear", "arms", "amendment2");
         registerAnimal(aShia,           "shia", "cannibal");
         
@@ -187,11 +196,16 @@ public class Game {
         registerRecipe(iKnife,      1,                                  iWood, iFlint);
         registerRecipe(iTorch,      1,  new Item[] {iFlint, iIron},     iWood);
         
+        registerCookable(iRchicken, iCchicken);
+        registerCookable(iRcrab, iCcrab);
+        
         registerCommand(cAnimals,       "animals");
         registerCommand(cAttack,        "attack", "fight", "pwn", "rek");
         registerCommand(cCheck,         "check", "inspect");
+        registerCommand(cCook,          "cook", "burn", "smelt", "melt", "fire");
         registerCommand(cCraft,         "craft", "make", "build", "smith");
-        registerCommand(cDie,           "die", "suicide", "sepukku");
+        registerCommand(cDie, true,     "die", "suicide", "sepukku");
+        registerCommand(cDrink,         "drink", "glug", "chug", "drown");
         registerCommand(cEat,           "eat", "nom", "consume");
         registerCommand(cGather, 		"gather", "fetch");
         registerCommand(cHelp, 			"help", "halp");
@@ -228,6 +242,10 @@ public class Game {
         for (String n: names) {
             this.items.put(n.toLowerCase(), item);
         }
+    }
+    
+    private void registerCookable(Item raw, Item cooked) {
+        this.cookables.put(raw, cooked);
     }
     
     private void registerAnimal(Animal animal, String... names) {
@@ -269,6 +287,10 @@ public class Game {
     
     public Item getItem(String name) {
         return items.get(name.toLowerCase());
+    }
+
+    public Item getCooked(Item item) {
+        return cookables.get(item);
     }
 
     public Location getLocation(String name) {
