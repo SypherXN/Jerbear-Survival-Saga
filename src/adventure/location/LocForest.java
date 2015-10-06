@@ -17,8 +17,10 @@ public class LocForest extends Location {
     @Override
     public Map<Item, Integer[]> getResources() {
         Map<Item, Integer[]> map = new HashMap<Item, Integer[]>();
-        map.put(Game.iWood, new Integer[] {5, 12});
-        map.put(Game.iWeed, new Integer[] {0, 1});
+        map.put(Game.iLemon, new Integer[] {0, 3});
+        map.put(Game.iPepper, new Integer[] {0, 3});
+        map.put(Game.iWood, new Integer[] {3, 6});
+        map.put(Game.iWeed, new Integer[] {-10, 1});
         map.put(Game.iVine, new Integer[] {2, 5});
         return map;
     }

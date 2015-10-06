@@ -25,7 +25,9 @@ public class Player {
     private List<Animal> foundAnimals;
     public float water, hp, hunger, thirst;
     
-    public Player() {
+    public final String name;
+    
+    public Player(String name) {
         inventory = new ArrayList<Item>();
         storage = new ArrayList<Item>();
         foundAnimals = new ArrayList<Animal>();
@@ -33,6 +35,7 @@ public class Player {
         hp = MAXHEALTH;
         hunger = MAXHUNGER;
         thirst = MAXTHIRST;
+        this.name = name;
     }
     
     /**

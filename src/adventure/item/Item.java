@@ -47,7 +47,7 @@ public class Item {
      * @param hunger
      */
     public Item(String name, String desc, float hunger) {
-        this(name, desc, 0.25f, 0.25f, hunger, 0);
+        this(name, desc, 0.1f, 0.1f, hunger, 0);
     }
         
     /**

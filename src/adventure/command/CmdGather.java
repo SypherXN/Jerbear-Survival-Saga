@@ -34,8 +34,12 @@ public class CmdGather implements Command {
                         throw new InvOutOfVolumeException();
                     }
                     int amount = Main.rand.nextInt(range[1] - range[0]) + range[0];
-                    player.invAdd(item, amount);
-                    System.out.printf("You gather %s %s.\n", amount, item.name.toLowerCase());
+                    if (amount <= 0) {
+                        System.out.printf("You could not find any %s.", item.name);
+                    } else {
+                        player.invAdd(item, amount);
+                        System.out.printf("You gather %s %s.\n", amount, item.name.toLowerCase());
+                    }
                 }
             }
             return 1f;

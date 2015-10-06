@@ -21,7 +21,7 @@ public class CmdTiger implements Command {
                 1000l, args[0].toUpperCase() + " AGAIN!?\n",
                 1000l, "YOU ARE SHAMEFURR DISPRAY TO YOUR FAMORRY!\n",
                 1000l, "COMMIT SUDOKU!\n", 500l);
-        throw new InvalidGradeException(args[0].toUpperCase());
+        throw new InvalidGradeException(player.name, args[0].toUpperCase());
     }
 
     @Override
@@ -37,7 +37,7 @@ class InvalidGradeException extends RuntimeException {
      */
     private static final long serialVersionUID = 1L;
 
-    InvalidGradeException(String grade) {
-        super(String.format("Unacceptabru grade: %s\nPlayer spanked", grade));
+    InvalidGradeException(String name, String grade) {
+        super(String.format("\n%s is an unacceptabru grade; %s spanked", grade, name));
     }
 }

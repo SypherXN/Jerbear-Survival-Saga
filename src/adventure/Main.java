@@ -18,7 +18,7 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         
         System.out.print("What is your name? ");
-        //String name = sc.nextLine();
+        String name = sc.nextLine();
         
         rollout(
                 "Survival game",
@@ -28,7 +28,7 @@ public class Main {
         
         Game game = new Game();
         
-        Player player = new Player();
+        Player player = new Player(name);
         player.location = game.getLocation("beach");
         try {
             player.invAdd(Game.iKnife, Game.iBottle);

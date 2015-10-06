@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import adventure.animal.Anim4Chainz;
 import adventure.animal.AnimBear;
 import adventure.animal.AnimChicken;
 import adventure.animal.AnimCrab;
@@ -24,6 +25,7 @@ import adventure.command.CmdHelp;
 import adventure.command.CmdInfo;
 import adventure.command.CmdMine;
 import adventure.command.CmdMove;
+import adventure.command.CmdNerdCheckLocation;
 import adventure.command.CmdTiger;
 import adventure.command.CmdTrack;
 import adventure.command.CmdWait;
@@ -38,22 +40,27 @@ import adventure.location.LocRuins;
 import adventure.location.Location;
 
 public class Game {
-	
+    	
     /*************************************** ITEMS ***************************************/
     public static final Item 
     
     // Materials and Mundanes
-            iWood =      	    new Item("Wood", "Made from trees", 0.5f, 1f),
+            iIron =             new Item("Metal", "Don't drop it on your toe", 2f, 0.5f),
+            iWood =             new Item("Wood", "Made from trees", 0.5f, 1f),
             iRock =      	    new Item("Rock", "It rocks", 1f, 0.5f),
-            iFlint =     	    new Item("Flint", "It's sharp", 0.5f, 1f),
+            iFlint =            new Item("Flint", "It's sharp", 0.5f, 1f),
+            iTorch =            new Item("Torch", "It's kind of hot", 0.5f, 2f),
+            iPcb =              new Item("PCB", "A printed circuit board for cannons", 0.1f, 1f),
             iVine =     	    new Item("Vine", "6-second videos", 0.5f, 1f),
             iBottle =    	    new Item("Bottle", "Swallow", 0.25f, .25f),
     
     // Weapons
             iArrow =     	    new Item("Arrow", "Pew-pew wait nvm its not a laser", 0.5f, 1f),
-            iBow =       	    new RangedWeapon("Bow", "Retractable shooty-thingy", 1.5f, 3f, 10f, iArrow),
+            iBow =              new RangedWeapon("Bow", "Retractable shooty-thingy", 1.5f, 3f, 10f, iArrow),
+            iCLemon =           new Item("Combustible Lemon", "It has a DMCA notice on it", 0.1f, 0.1f),
+            iCLemonGun =        new RangedWeapon("Combustible Lemon Launcher", "For burning life's house down", 1.5f, 3f, 30f, iCLemon),
             iHammer =    	    new Item("Hammer", "Stop, hammertime", 2f, 0.5f, 10f),
-            iKnife =     	    new Item("Knife", "For cutting and burning", 0.5f, 1f, 5f),
+            iKnife =            new Item("Knife", "For cutting and burning", 0.5f, 1f, 5f),
             iSpear =            new Item("Spear", "Poke", 4f, 5f, 20f),
             iFists =            new Item("Fists", "It's all you got...", 0f, 0f, 1f),
             //combustible lemon launcher
@@ -79,8 +86,9 @@ public class Game {
     
     // Hostile
             aBear =             new AnimBear(),
-            aWolf = 			new AnimWolf(),
-            aShia =             new AnimShia()
+            aRobot =            new Anim4Chainz(),
+            aShia =             new AnimShia(),
+            aWolf = 			new AnimWolf()
     
     ;
     
@@ -107,7 +115,8 @@ public class Game {
             cEat =              new CmdEat(),
     		cGather = 		    new CmdGather(),
     		cHelp = 			new CmdHelp(),
-    		cInfo = 			new CmdInfo(),
+            cInfo =             new CmdInfo(),
+            cLS =               new CmdNerdCheckLocation(),
 			cMove = 			new CmdMove(),
             cMine =             new CmdMine(),
             cTrack =            new CmdTrack(),
@@ -132,7 +141,7 @@ public class Game {
     }
     
     public Game(boolean includeDev) {
-        
+                
         day = 0;
         time = 0;
         
@@ -146,26 +155,37 @@ public class Game {
         registerItem(iArrow,			"arrow");
         registerItem(iBottle,			"bottle", "canteen");
         registerItem(iBow,				"bow");
-        registerItem(iCchicken,			"cookedchicken", "kungpao", "kfc");
+        registerItem(iCchicken,         "cookedchicken", "kungpao", "kfc");
+        registerItem(iCLemon,           "combustiblelemon", "cavelemon", "molotov", "incendiarylemon");
+        registerItem(iCLemonGun,        "lemonlauncher", "lemongun");
         registerItem(iFlint,			"flint");
         registerItem(iHammer,			"hammer");
-        registerItem(iKnife,			"knife");
-        registerItem(iRchicken,			"rawchicken");
+        registerItem(iKnife,            "knife");
+        registerItem(iIron,             "metal", "ingot", "iron", "steel");
+        registerItem(iPepper,           "pepper", "jalapeno", "spicy");
+        registerItem(iPcb,              "pcb", "arduino", "raspberrypi");
+        registerItem(iRchicken,         "rawchicken");
         registerItem(iRock,				"rock", "stone");
         registerItem(iSpear,			"spear");
         registerItem(iVine,				"vines", "vine");
         registerItem(iWeed,				"weed", "chris", "420");
         registerItem(iWood,             "wood");
         
-        registerAnimal(aChicken,        "chicken", "duck", "livekfc");
+        registerAnimal(aChicken,        "chicken", "duck", "livekfc", "livekungpao");
         registerAnimal(aCrab,           "crab", "pinchy", "lobster", "crustacean");
         registerAnimal(aDeer,           "deer", "moose", "meese");
-        registerAnimal(aWolf,           "wolf", "dog", "canine");
-        registerAnimal(aBear,           "bear", "arms");
+        registerAnimal(aWolf,           "wolf", "dog", "canine", "rover", "dinner");
+        registerAnimal(aBear,           "bear", "arms", "amendment2");
         registerAnimal(aShia,           "shia", "cannibal");
         
-        registerRecipe(iBow,   	1,  new Item[] {iKnife},    iWood, iWood, iWood, iVine, iVine);
-        registerRecipe(iArrow, 	4, 				    	    iFlint, iFlint, iWood, iVine);
+        registerRecipe(iBow,        1,  new Item[] {iKnife},            iWood, iWood, iWood, iVine, iVine);
+        registerRecipe(iCLemonGun,  1,  new Item[] {iHammer},           iPcb, iWood, iWood, iIron, iIron, iIron, iTorch);
+        registerRecipe(iArrow,      4, 				    	            iFlint, iFlint, iWood, iVine);
+        registerRecipe(iCLemon,     1,                                  iLemon, iPepper);
+        registerRecipe(iHammer,     1,  new Item[] {iKnife},            iWood, iIron, iVine);
+        registerRecipe(iSpear,      1,  new Item[] {iHammer},           iWood, iWood, iWood, iVine, iIron);
+        registerRecipe(iKnife,      1,                                  iWood, iFlint);
+        registerRecipe(iTorch,      1,  new Item[] {iFlint, iIron},     iWood);
         
         registerCommand(cAnimals,       "animals");
         registerCommand(cAttack,        "attack", "fight", "pwn", "rek");
@@ -175,8 +195,9 @@ public class Game {
         registerCommand(cEat,           "eat", "nom", "consume");
         registerCommand(cGather, 		"gather", "fetch");
         registerCommand(cHelp, 			"help", "halp");
-        registerCommand(cInfo, 			"info");
-        registerCommand(cMove, 			"move", "travel");
+        registerCommand(cInfo,          "info");
+        registerCommand(cLS, true,      "ls");
+        registerCommand(cMove, 			"move", "travel", "cd");
         registerCommand(cMine, true,    "minesweeper");
         registerCommand(cTiger, true,   "a+ a- b+ b- c+ c- d+ d- f+ f-".split(" "));
         registerCommand(cTrack,         "track", "find");
