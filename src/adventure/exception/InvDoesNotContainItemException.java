@@ -1,4 +1,4 @@
-package adventure;
+package adventure.exception;
 
 import adventure.item.Item;
 

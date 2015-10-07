@@ -3,8 +3,8 @@ package adventure.command;
 import java.util.Scanner;
 
 import adventure.Game;
-import adventure.InvDoesNotContainItemException;
 import adventure.Player;
+import adventure.exception.InvDoesNotContainItemException;
 import adventure.item.Item;
 
 public class CmdEat implements Command {

@@ -1,4 +1,4 @@
-package adventure;
+package adventure.exception;
 
 public class InvOutOfVolumeException extends Exception {
 

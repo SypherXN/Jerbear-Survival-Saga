@@ -8,6 +8,9 @@ import java.util.Scanner;
 
 import adventure.animal.Animal;
 import adventure.command.Command;
+import adventure.exception.InvDoesNotContainItemException;
+import adventure.exception.InvOutOfVolumeException;
+import adventure.exception.InvOutOfWeightException;
 import adventure.item.Item;
 import adventure.location.Location;
 

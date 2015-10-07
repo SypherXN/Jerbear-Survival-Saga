@@ -2,9 +2,9 @@ package adventure.item;
 
 import java.util.Random;
 
-import adventure.InvDoesNotContainItemException;
 import adventure.Player;
 import adventure.animal.Animal;
+import adventure.exception.InvDoesNotContainItemException;
 
 public class RangedWeapon extends Item {
     

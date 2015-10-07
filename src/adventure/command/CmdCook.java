@@ -3,10 +3,10 @@ package adventure.command;
 import java.util.Scanner;
 
 import adventure.Game;
-import adventure.InvDoesNotContainItemException;
-import adventure.InvOutOfVolumeException;
-import adventure.InvOutOfWeightException;
 import adventure.Player;
+import adventure.exception.InvDoesNotContainItemException;
+import adventure.exception.InvOutOfVolumeException;
+import adventure.exception.InvOutOfWeightException;
 import adventure.item.Item;
 
 public class CmdCook implements Command {

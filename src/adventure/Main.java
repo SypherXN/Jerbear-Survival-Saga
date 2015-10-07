@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 
+import adventure.exception.InvOutOfVolumeException;
+import adventure.exception.InvOutOfWeightException;
 import adventure.item.Item;
 
 public class Main {
@@ -24,8 +26,8 @@ public class Main {
             
             rollout(
                     "Survival game",
-                    100l, ", programmed and designed by Maxim\n",
-                    100l, "You are stranded on an island.\n"
+                    500l, ", programmed and designed by Maxim, contributions from Matthew and Jerry\n",
+                    500l, "You are stranded on an island.\n"
             );
             
             Game game = new Game();

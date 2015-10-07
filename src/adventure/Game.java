@@ -33,6 +33,10 @@ import adventure.command.CmdTrack;
 import adventure.command.CmdWait;
 import adventure.command.Command;
 import adventure.command.dev.CmdDevGive;
+import adventure.exception.AnimalNameUsedException;
+import adventure.exception.CommandAliasUsedException;
+import adventure.exception.ItemNameUsedException;
+import adventure.exception.LocationNameUsedException;
 import adventure.item.Item;
 import adventure.item.RangedWeapon;
 import adventure.location.LocBeach;
@@ -240,6 +244,9 @@ public class Game {
     
     private void registerItem(Item item, String... names) {
         for (String n: names) {
+            if (this.items.containsKey(item)) {
+                throw new ItemNameUsedException(n, item);
+            }
             this.items.put(n.toLowerCase(), item);
         }
     }
@@ -250,6 +257,9 @@ public class Game {
     
     private void registerAnimal(Animal animal, String... names) {
         for (String n: names) {
+            if (this.animals.containsKey(animal)) {
+                throw new AnimalNameUsedException(n, animal);
+            }
             this.animals.put(n.toLowerCase(), animal);
         }
     }
@@ -267,12 +277,18 @@ public class Game {
             throw new IllegalArgumentException("Did not specify a name for the command!");
         }
         for (String n: names) {
+            if (this.commands.containsKey(n)) {
+                throw new CommandAliasUsedException(n, callback);
+            }
             this.commands.put(n.toLowerCase(), callback);
         }
     }
     
     private void registerLocation(Location location, String... names) {
     	for (String n: names) {
+            if (this.locations.containsKey(n)) {
+                throw new LocationNameUsedException(n, location);
+            }
     		this.locations.put(n.toLowerCase(), location);
     	}
     }
